@@ -7,7 +7,11 @@
   "author": "Derrick <derrickplotsky@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "parcel-bundler": "^1.12.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "typescript": "^3.9.3"
   },
   "scripts": {
