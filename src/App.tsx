@@ -1,6 +1,6 @@
 import { User } from "security/User";
 import React from "react";
-import { SignUp } from "./components/security/SignUp";
+import { SignUp } from "~/components/security/SignUp";
 
 export interface AppProps {
   user?: User;
