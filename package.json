@@ -15,6 +15,7 @@
     "typescript": "^3.9.3"
   },
   "scripts": {
-    "compile": "tsc -v && tsc --noEmit"
+    "compile": "tsc -v && tsc --noEmit",
+    "parcel": "parcel src/index.html"
   }
 }
