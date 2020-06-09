@@ -30,16 +30,33 @@ async function signUp(
   return credential.user;
 }
 
+async function signIn(
+  email: string,
+  password: string
+): Promise<firebase.User | null> {
+  const credential = await firebaseApp
+    .auth()
+    .signInWithEmailAndPassword(email, password);
+  return credential.user;
+}
+
+async function signOut(): Promise<void> {
+  return firebaseApp.auth().signOut();
+}
+
+(window as any)["signout"] = signOut;
+
 function renderApp(user?: User) {
   render(
     <BrowserRouter>
-      <App signUpComplete={signUp} user={user} />
+      <App signUpComplete={signUp} user={user} signInComplete={signIn} />
     </BrowserRouter>,
     element
   );
 }
 
 firebaseApp.auth().onAuthStateChanged((fbUser) => {
+  console.log("auth changed");
   if (fbUser) {
     const user = fromFirebaseUser(fbUser);
     renderApp(user);
