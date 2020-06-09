@@ -13,11 +13,14 @@
     "@types/react-router-dom": "^5.1.5",
     "corejs": "^1.0.0",
     "firebase": "^7.14.6",
+    "grommet": "^2.13.0",
     "parcel-bundler": "^1.12.4",
+    "polished": "^3.6.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.5",
+    "styled-components": "^5.1.1",
     "typescript": "^3.9.3"
   },
   "scripts": {
