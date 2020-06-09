@@ -1,10 +1,13 @@
 import { User } from "~User";
 import React from "react";
+import { Grommet, ThemeType, Heading, Button, Box } from "grommet";
+import { Notification } from "grommet-icons";
 import { SignUp } from "~pages/SignUp";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Home } from "~pages/Home";
 import { SignIn } from "~pages/SignIn";
 import { SignInOrSignUp } from "~pages/SignInOrSignUp";
+import { AppBar } from "~components/AppBar";
 
 export interface AppProps {
   user?: User;
@@ -12,32 +15,69 @@ export interface AppProps {
   signInComplete: (email: string, password: string) => void;
 }
 
+const theme: ThemeType = {
+  global: {
+    font: {
+      family: "Roboto",
+      size: "14px",
+      height: "20px",
+    },
+  },
+};
+
 export const App = (props: AppProps) => {
   const { user } = props;
   const loggedIn = !!user;
 
   return (
-    <Switch>
-      <Route exact path="/">
-        {loggedIn ? <Home user={user!} /> : <Redirect to="/sign-in-or-up" />}
-      </Route>
-      <Route path="/sign-in-or-up">
-        {loggedIn ? <Redirect to="/" /> : <SignInOrSignUp />}
-      </Route>
-      <Route path="/sign-up">
-        {loggedIn ? (
-          <Redirect to="/" />
-        ) : (
-          <SignUp signUpComplete={props.signUpComplete} />
-        )}
-      </Route>
-      <Route path="/sign-in">
-        {loggedIn ? (
-          <Redirect to="/" />
-        ) : (
-          <SignIn signInComplete={props.signInComplete} />
-        )}
-      </Route>
-    </Switch>
+    <Grommet theme={theme}>
+      <Box fill>
+        <AppBar>
+          <Heading level="3" margin="none">
+            Minecraft Coordinate Keeper
+          </Heading>
+          <Button icon={<Notification />} onClick={() => {}} />
+        </AppBar>
+        <Box direction="row" flex overflow={{ horizontal: "hidden" }}>
+          <Box flex align="center" justify="center">
+            <Switch>
+              <Route exact path="/">
+                {loggedIn ? (
+                  <Home user={user!} />
+                ) : (
+                  <Redirect to="/sign-in-or-up" />
+                )}
+              </Route>
+              <Route path="/sign-in-or-up">
+                {loggedIn ? <Redirect to="/" /> : <SignInOrSignUp />}
+              </Route>
+              <Route path="/sign-up">
+                {loggedIn ? (
+                  <Redirect to="/" />
+                ) : (
+                  <SignUp signUpComplete={props.signUpComplete} />
+                )}
+              </Route>
+              <Route path="/sign-in">
+                {loggedIn ? (
+                  <Redirect to="/" />
+                ) : (
+                  <SignIn signInComplete={props.signInComplete} />
+                )}
+              </Route>
+            </Switch>
+          </Box>
+          <Box
+            width="medium"
+            background="light-2"
+            elevation="small"
+            align="center"
+            justify="center"
+          >
+            Sidebar
+          </Box>
+        </Box>
+      </Box>
+    </Grommet>
   );
 };
