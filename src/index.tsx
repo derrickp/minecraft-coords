@@ -4,7 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 
 import { User } from "~security/User";
 import { App } from "~/App";
-import { signOut, signUp, signIn, subscribeToUserChanges } from "~security/authentication";
+import {
+  signOut,
+  signUp,
+  signIn,
+  subscribeToUserChanges,
+} from "~security/authentication";
 
 const element = document.getElementById("app");
 
