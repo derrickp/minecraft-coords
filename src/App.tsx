@@ -1,4 +1,4 @@
-import { User } from "security/User";
+import { User } from "~User";
 import React from "react";
 import { SignUp } from "~pages/SignUp";
 import { Switch, Route, Redirect } from "react-router-dom";
