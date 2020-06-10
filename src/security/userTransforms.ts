@@ -1,7 +1,4 @@
-export interface User {
-  displayName: string;
-  email: string;
-}
+import { User } from "~User";
 
 export function fromFirebaseUser(firebaseUser: firebase.User): User {
   return {

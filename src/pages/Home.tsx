@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "~security/User";
+import { User } from "~User";
 
 export interface HomeProps {
   user: User;

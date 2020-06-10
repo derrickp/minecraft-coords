@@ -1,4 +1,5 @@
-import { User, fromFirebaseUser } from "./User";
+import { fromFirebaseUser } from "./userTransforms";
+import { User } from "~User";
 import { Handle } from "~Handle";
 import { getFirebaseApp } from "~bootstrap/firebase";
 

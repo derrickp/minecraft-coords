@@ -2,8 +2,8 @@ import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 
-import { User } from "~security/User";
-import { App } from "~/App";
+import { User } from "~User";
+import { App } from "~App";
 import {
   signOut,
   signUp,
