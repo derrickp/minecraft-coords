@@ -1,7 +1,8 @@
 {
   "files.exclude": {
     "node_modules": true,
-    ".cache": true
+    ".cache": true,
+    "dist": true
   },
   "editor.formatOnSave": true
 }
