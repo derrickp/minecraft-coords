@@ -6,6 +6,6 @@ export interface User {
 export function fromFirebaseUser(firebaseUser: firebase.User): User {
   return {
     displayName: firebaseUser.displayName!,
-    email: firebaseUser.email!
+    email: firebaseUser.email!,
   };
 }

@@ -1,3 +1,3 @@
 export interface Handle {
-    remove: () => void;
+  remove: () => void;
 }

@@ -9,8 +9,8 @@ export const SignInOrSignUp = () => {
   };
 
   const onSignUpClick = () => {
-      history.push("sign-up");
-  }
+    history.push("sign-up");
+  };
 
   return (
     <>

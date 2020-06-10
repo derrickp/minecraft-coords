@@ -6,7 +6,6 @@ import { Home } from "~pages/Home";
 import { SignIn } from "~pages/SignIn";
 import { SignInOrSignUp } from "~pages/SignInOrSignUp";
 
-
 export interface AppProps {
   user?: User;
   signUpComplete: (email: string, password: string) => void;
