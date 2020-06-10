@@ -1,4 +1,5 @@
+import { BasicInfo } from "~security/BasicInfo";
+
 export interface User {
-  displayName: string;
-  email: string;
+  basicInfo: BasicInfo;
 }

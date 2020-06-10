@@ -1,15 +1,17 @@
-import { fromFirebaseUser } from "./userTransforms";
-import { User } from "~User";
+import { infoFromFirebaseUser } from "./firebaseTransforms";
 import { Handle } from "~Handle";
 import { getFirebaseApp } from "~bootstrap/firebase";
+import { BasicInfo } from "./BasicInfo";
 
-const subscriptions: Set<(user?: User) => void> = new Set();
+const subscriptions: Set<(user?: BasicInfo) => void> = new Set();
 
 const firebaseApp = getFirebaseApp();
 
 firebaseApp.auth().onAuthStateChanged((fbUser) => {
   console.log("auth changed");
-  const user: User | undefined = fbUser ? fromFirebaseUser(fbUser) : undefined;
+  const user: BasicInfo | undefined = fbUser
+    ? infoFromFirebaseUser(fbUser)
+    : undefined;
 
   for (const callback of subscriptions) {
     callback(user);
@@ -17,7 +19,7 @@ firebaseApp.auth().onAuthStateChanged((fbUser) => {
 });
 
 export function subscribeToUserChanges(
-  callback: (user?: User) => void
+  callback: (user?: BasicInfo) => void
 ): Handle {
   if (!subscriptions.has(callback)) {
     subscriptions.add(callback);
@@ -35,21 +37,21 @@ export function subscribeToUserChanges(
 export async function signUp(
   email: string,
   password: string
-): Promise<User | undefined> {
+): Promise<BasicInfo | undefined> {
   const credential = await firebaseApp
     .auth()
     .createUserWithEmailAndPassword(email, password);
-  return credential.user ? fromFirebaseUser(credential.user) : undefined;
+  return credential.user ? infoFromFirebaseUser(credential.user) : undefined;
 }
 
 export async function signIn(
   email: string,
   password: string
-): Promise<User | undefined> {
+): Promise<BasicInfo | undefined> {
   const credential = await firebaseApp
     .auth()
     .signInWithEmailAndPassword(email, password);
-  return credential.user ? fromFirebaseUser(credential.user) : undefined;
+  return credential.user ? infoFromFirebaseUser(credential.user) : undefined;
 }
 
 export async function signOut(): Promise<void> {

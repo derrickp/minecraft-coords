@@ -28,8 +28,15 @@ function renderApp(user?: User) {
   );
 }
 
-subscribeToUserChanges((user) => {
-  renderApp(user);
+subscribeToUserChanges((basicInfo) => {
+  if (basicInfo) {
+    const user: User = {
+      basicInfo,
+    };
+    renderApp(user);
+    return;
+  }
+  renderApp(undefined);
 });
 
 renderApp();
