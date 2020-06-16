@@ -8,7 +8,7 @@ import { Home } from "~pages/Home";
 import { SignIn } from "~pages/SignIn";
 import { SignInOrSignUp } from "~pages/SignInOrSignUp";
 import { AppBar } from "~components/AppBar";
-import { SidebarNav } from "~components/SideBarNav";
+import { SidebarNav } from "~components/SidebarNav";
 
 export interface AppProps {
   user?: User;
@@ -27,10 +27,9 @@ const theme: ThemeType = {
   },
 };
 
-export const App = (props: AppProps) => {
+export const App = (props: AppProps): JSX.Element => {
   const [showSideBar, setShowSideBar] = useState(false);
   const { user } = props;
-  const loggedIn = !!user;
 
   const handleSignOut = () => {
     setShowSideBar(false);
@@ -44,7 +43,7 @@ export const App = (props: AppProps) => {
           <Heading level="3" margin="none">
             Minecraft Coordinate Keeper
           </Heading>
-          {loggedIn && (
+          {!!user && (
             <Button
               icon={<Menu />}
               onClick={() => {
@@ -57,24 +56,20 @@ export const App = (props: AppProps) => {
           <Box flex align="center" justify="center">
             <Switch>
               <Route exact path="/">
-                {loggedIn ? (
-                  <Home user={user!} />
-                ) : (
-                  <Redirect to="/sign-in-or-up" />
-                )}
+                {user ? <Home user={user} /> : <Redirect to="/sign-in-or-up" />}
               </Route>
               <Route path="/sign-in-or-up">
-                {loggedIn ? <Redirect to="/" /> : <SignInOrSignUp />}
+                {user ? <Redirect to="/" /> : <SignInOrSignUp />}
               </Route>
               <Route path="/sign-up">
-                {loggedIn ? (
+                {user ? (
                   <Redirect to="/" />
                 ) : (
                   <SignUp signUpComplete={props.signUpComplete} />
                 )}
               </Route>
               <Route path="/sign-in">
-                {loggedIn ? (
+                {user ? (
                   <Redirect to="/" />
                 ) : (
                   <SignIn signInComplete={props.signInComplete} />

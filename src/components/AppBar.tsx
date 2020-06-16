@@ -1,9 +1,9 @@
 import React from "react";
-import { Box } from "grommet";
+import { Box, BoxProps } from "grommet";
 
-export interface AppBarProps {}
-
-export const AppBar = (props: AppBarProps) => (
+export const AppBar = (
+  props: BoxProps & React.ComponentProps<"div">
+): JSX.Element => (
   <Box
     tag="header"
     direction="row"

@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Button } from "grommet";
 
-export const SignInOrSignUp = () => {
+export const SignInOrSignUp = (): JSX.Element => {
   const history = useHistory();
 
   const onSignInClick = () => {

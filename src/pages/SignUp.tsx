@@ -5,7 +5,7 @@ export interface SignUpProps {
   signUpComplete: (email: string, password: string) => void;
 }
 
-export function SignUp(props: SignUpProps) {
+export function SignUp(props: SignUpProps): JSX.Element {
   return (
     <PasswordForm onFormComplete={props.signUpComplete} buttonText="Sign Up" />
   );

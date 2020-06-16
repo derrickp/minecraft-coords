@@ -17,8 +17,6 @@ if (!element) {
   console.error("Nothing is going to work now.");
 }
 
-(window as any)["signout"] = signOut;
-
 function renderApp(user?: User) {
   render(
     <BrowserRouter>

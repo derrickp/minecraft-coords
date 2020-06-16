@@ -6,6 +6,6 @@ import "firebase/auth";
 
 import { config } from "../config/firebase";
 
-export function getFirebaseApp() {
+export function getFirebaseApp(): firebase.app.App {
   return firebase.initializeApp(config, "minecraft-coords");
 }

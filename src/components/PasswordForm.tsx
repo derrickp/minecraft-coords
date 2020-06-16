@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Hide, View } from "grommet-icons";
 import { Box, TextInput, Button, Form, FormField } from "grommet";
 
 export interface PasswordFormProps {
@@ -7,17 +6,11 @@ export interface PasswordFormProps {
   buttonText: string;
 }
 
-export const PasswordForm = (props: PasswordFormProps) => {
+export const PasswordForm = (props: PasswordFormProps): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [reveal, setReveal] = useState(false);
 
-  // const buttonClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   props.onFormComplete(email, password);
-  // };
-
-  const handleSubmit = (event: React.FormEvent<Element>) => {
+  const handleSubmit = () => {
     props.onFormComplete(email, password);
   };
 
@@ -44,29 +37,3 @@ export const PasswordForm = (props: PasswordFormProps) => {
     </Box>
   );
 };
-
-{
-  /* <form className="pure-form">
-      <fieldset>
-        <input
-          type="email"
-          value={email}
-          autoComplete="username"
-          onChange={(evt) => setEmail(evt.currentTarget.value)}
-        />
-        <input
-          type="password"
-          value={password}
-          autoComplete="current-password"
-          onChange={(evt) => setPassword(evt.currentTarget.value)}
-        />
-        <button
-          type="submit"
-          onClick={buttonClicked}
-          className="pure-button pure-button-primary"
-        >
-          {props.buttonText}
-        </button>
-      </fieldset>
-    </form> */
-}

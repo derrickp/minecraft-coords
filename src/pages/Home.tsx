@@ -5,6 +5,6 @@ export interface HomeProps {
   user: User;
 }
 
-export const Home = (props: HomeProps) => {
+export const Home = (props: HomeProps): JSX.Element => {
   return <div>{props.user.basicInfo.email}</div>;
 };
