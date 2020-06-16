@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Box, Button } from "grommet";
 
 export const SignInOrSignUp = () => {
   const history = useHistory();
@@ -14,21 +15,12 @@ export const SignInOrSignUp = () => {
 
   return (
     <>
-      <button
-        className="pure-button pure-button-primary"
-        type="button"
-        onClick={onSignInClick}
-      >
-        Sign In
-      </button>
-      <br />
-      <button
-        className="pure-button pure-button-primary"
-        type="button"
-        onClick={onSignUpClick}
-      >
-        Sign Up
-      </button>
+      <Box align="center" pad="medium">
+        <Button size="large" label="Sign In" onClick={onSignInClick}></Button>
+      </Box>
+      <Box align="center" pad="medium">
+        <Button size="large" label="Sign Up" onClick={onSignUpClick}></Button>
+      </Box>
     </>
   );
 };

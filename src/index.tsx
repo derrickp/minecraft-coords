@@ -22,7 +22,12 @@ if (!element) {
 function renderApp(user?: User) {
   render(
     <BrowserRouter>
-      <App signUpComplete={signUp} user={user} signInComplete={signIn} />
+      <App
+        signUpComplete={signUp}
+        user={user}
+        signInComplete={signIn}
+        signOut={signOut}
+      />
     </BrowserRouter>,
     element
   );

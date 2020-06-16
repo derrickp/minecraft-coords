@@ -1,18 +1,20 @@
 import { User } from "~User";
-import React from "react";
-import { Grommet, ThemeType, Heading, Button, Box } from "grommet";
-import { Notification } from "grommet-icons";
+import React, { useState } from "react";
+import { Grommet, ThemeType, Heading, Button, Box, Sidebar } from "grommet";
+import { Menu } from "grommet-icons";
 import { SignUp } from "~pages/SignUp";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Home } from "~pages/Home";
 import { SignIn } from "~pages/SignIn";
 import { SignInOrSignUp } from "~pages/SignInOrSignUp";
 import { AppBar } from "~components/AppBar";
+import { SidebarNav } from "~components/SideBarNav";
 
 export interface AppProps {
   user?: User;
   signUpComplete: (email: string, password: string) => void;
   signInComplete: (email: string, password: string) => void;
+  signOut: () => void;
 }
 
 const theme: ThemeType = {
@@ -26,17 +28,30 @@ const theme: ThemeType = {
 };
 
 export const App = (props: AppProps) => {
+  const [showSideBar, setShowSideBar] = useState(false);
   const { user } = props;
   const loggedIn = !!user;
 
+  const handleSignOut = () => {
+    setShowSideBar(false);
+    props.signOut();
+  };
+
   return (
-    <Grommet theme={theme}>
+    <Grommet theme={theme} themeMode="dark">
       <Box fill>
         <AppBar>
           <Heading level="3" margin="none">
             Minecraft Coordinate Keeper
           </Heading>
-          <Button icon={<Notification />} onClick={() => {}} />
+          {loggedIn && (
+            <Button
+              icon={<Menu />}
+              onClick={() => {
+                setShowSideBar(!showSideBar);
+              }}
+            />
+          )}
         </AppBar>
         <Box direction="row" flex overflow={{ horizontal: "hidden" }}>
           <Box flex align="center" justify="center">
@@ -67,15 +82,13 @@ export const App = (props: AppProps) => {
               </Route>
             </Switch>
           </Box>
-          <Box
-            width="medium"
-            background="light-2"
-            elevation="small"
-            align="center"
-            justify="center"
-          >
-            Sidebar
-          </Box>
+          {showSideBar && (
+            <Box direction="row">
+              <Sidebar background="accent-1">
+                <SidebarNav signOut={handleSignOut}></SidebarNav>
+              </Sidebar>
+            </Box>
+          )}
         </Box>
       </Box>
     </Grommet>
