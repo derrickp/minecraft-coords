@@ -17,6 +17,17 @@ if (!element) {
   console.error("Nothing is going to work now.");
 }
 
+subscribeToUserChanges((basicInfo) => {
+  if (basicInfo) {
+    const user: User = {
+      basicInfo,
+    };
+    renderApp(user);
+    return;
+  }
+  renderApp();
+});
+
 function renderApp(user?: User) {
   render(
     <BrowserRouter>
@@ -30,16 +41,5 @@ function renderApp(user?: User) {
     element
   );
 }
-
-subscribeToUserChanges((basicInfo) => {
-  if (basicInfo) {
-    const user: User = {
-      basicInfo,
-    };
-    renderApp(user);
-    return;
-  }
-  renderApp(undefined);
-});
 
 renderApp();
