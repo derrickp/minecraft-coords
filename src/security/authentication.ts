@@ -1,15 +1,15 @@
 import { infoFromFirebaseUser } from "./firebaseTransforms";
 import { Handle } from "~Handle";
 import { getFirebaseApp } from "~bootstrap/firebase";
-import { BasicInfo } from "./BasicInfo";
+import { AuthInfo } from "./AuthInfo";
 
-const subscriptions: Set<(user?: BasicInfo) => void> = new Set();
+const subscriptions: Set<(user?: AuthInfo) => void> = new Set();
 
 const firebaseApp = getFirebaseApp();
 
 firebaseApp.auth().onAuthStateChanged((fbUser) => {
   console.log("auth changed");
-  const user: BasicInfo | undefined = fbUser
+  const user: AuthInfo | undefined = fbUser
     ? infoFromFirebaseUser(fbUser)
     : undefined;
 
@@ -19,7 +19,7 @@ firebaseApp.auth().onAuthStateChanged((fbUser) => {
 });
 
 export function subscribeToUserChanges(
-  callback: (user?: BasicInfo) => void
+  callback: (user?: AuthInfo) => void
 ): Handle {
   if (!subscriptions.has(callback)) {
     subscriptions.add(callback);
@@ -37,7 +37,7 @@ export function subscribeToUserChanges(
 export async function signUp(
   email: string,
   password: string
-): Promise<BasicInfo | undefined> {
+): Promise<AuthInfo | undefined> {
   const credential = await firebaseApp
     .auth()
     .createUserWithEmailAndPassword(email, password);
@@ -47,7 +47,7 @@ export async function signUp(
 export async function signIn(
   email: string,
   password: string
-): Promise<BasicInfo | undefined> {
+): Promise<AuthInfo | undefined> {
   const credential = await firebaseApp
     .auth()
     .signInWithEmailAndPassword(email, password);
@@ -56,4 +56,10 @@ export async function signIn(
 
 export async function signOut(): Promise<void> {
   return firebaseApp.auth().signOut();
+}
+
+export function getCurrentUserInfo(): AuthInfo | undefined {
+  const app = getFirebaseApp();
+  const currentUser = app.auth().currentUser;
+  return currentUser ? infoFromFirebaseUser(currentUser) : undefined;
 }

@@ -1,10 +1,10 @@
-import { BasicInfo } from "./BasicInfo";
+import { AuthInfo } from "./AuthInfo";
 
-export function infoFromFirebaseUser(firebaseUser: firebase.User): BasicInfo {
-  const displayName = !firebaseUser.displayName ? "" : firebaseUser.displayName;
+export function infoFromFirebaseUser(firebaseUser: firebase.User): AuthInfo {
   const email = !firebaseUser.email ? "" : firebaseUser.email;
+
   return {
-    displayName,
     email,
+    id: firebaseUser.uid,
   };
 }

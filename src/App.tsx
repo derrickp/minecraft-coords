@@ -1,5 +1,5 @@
-import { User } from "~User";
-import React, { useState } from "react";
+import { User, buildCurrentUser } from "~User";
+import React, { useState, useEffect } from "react";
 import { Grommet, ThemeType, Heading, Button, Box, Sidebar } from "grommet";
 import { Menu } from "grommet-icons";
 import { SignUp } from "~pages/SignUp";
@@ -9,12 +9,17 @@ import { SignIn } from "~pages/SignIn";
 import { SignInOrSignUp } from "~pages/SignInOrSignUp";
 import { AppBar } from "~components/AppBar";
 import { SidebarNav } from "~components/SidebarNav";
+import { AuthInfo } from "~security/AuthInfo";
+import {
+  subscribeToUserChanges,
+  signOut,
+  signIn,
+  signUp,
+} from "~security/authentication";
+import { persistCurrentUserIfNotPersisted } from "~firebase_data/users";
 
 export interface AppProps {
-  user?: User;
-  signUpComplete: (email: string, password: string) => void;
-  signInComplete: (email: string, password: string) => void;
-  signOut: () => void;
+  name: string;
 }
 
 const theme: ThemeType = {
@@ -29,21 +34,39 @@ const theme: ThemeType = {
 
 export const App = (props: AppProps): JSX.Element => {
   const [showSideBar, setShowSideBar] = useState(false);
-  const { user } = props;
 
   const handleSignOut = () => {
     setShowSideBar(false);
-    props.signOut();
+    signOut();
   };
+
+  const [currentUser, setUser] = useState((undefined as unknown) as User);
+  useEffect(() => {
+    async function handleUserChange(authInfo?: AuthInfo) {
+      if (authInfo) {
+        await persistCurrentUserIfNotPersisted();
+        const user = await buildCurrentUser();
+        setUser(user);
+      } else {
+        setUser((undefined as unknown) as User);
+      }
+    }
+
+    const handle = subscribeToUserChanges(handleUserChange);
+
+    return function cleanup() {
+      handle.remove();
+    };
+  }, [currentUser]);
 
   return (
     <Grommet theme={theme} themeMode="dark">
       <Box fill>
         <AppBar>
           <Heading level="3" margin="none">
-            Minecraft Coordinate Keeper
+            {props.name}
           </Heading>
-          {!!user && (
+          {!!currentUser && (
             <Button
               icon={<Menu />}
               onClick={() => {
@@ -56,23 +79,27 @@ export const App = (props: AppProps): JSX.Element => {
           <Box flex align="center" justify="center">
             <Switch>
               <Route exact path="/">
-                {user ? <Home user={user} /> : <Redirect to="/sign-in-or-up" />}
+                {currentUser ? (
+                  <Home user={currentUser} />
+                ) : (
+                  <Redirect to="/sign-in-or-up" />
+                )}
               </Route>
               <Route path="/sign-in-or-up">
-                {user ? <Redirect to="/" /> : <SignInOrSignUp />}
+                {currentUser ? <Redirect to="/" /> : <SignInOrSignUp />}
               </Route>
               <Route path="/sign-up">
-                {user ? (
+                {currentUser ? (
                   <Redirect to="/" />
                 ) : (
-                  <SignUp signUpComplete={props.signUpComplete} />
+                  <SignUp signUpComplete={signUp} />
                 )}
               </Route>
               <Route path="/sign-in">
-                {user ? (
+                {currentUser ? (
                   <Redirect to="/" />
                 ) : (
-                  <SignIn signInComplete={props.signInComplete} />
+                  <SignIn signInComplete={signIn} />
                 )}
               </Route>
             </Switch>
