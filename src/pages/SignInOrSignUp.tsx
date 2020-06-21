@@ -10,7 +10,7 @@ export const SignInOrSignUp = (): JSX.Element => {
   };
 
   const onSignUpClick = () => {
-    history.push("sign-up");
+    history.push("/sign-up");
   };
 
   return (
