@@ -11,7 +11,7 @@ import {
   Button,
 } from "grommet";
 import { Add } from "grommet-icons";
-import { World } from "~minecraft/World";
+import { World, getFriendlyId } from "~minecraft/World";
 
 export interface WorldTableLinksProps {
   worlds: World[];
@@ -40,7 +40,7 @@ export const WorldTableLinks = (props: WorldTableLinksProps): JSX.Element => {
           {props.worlds.map((world) => (
             <TableRow key={world.id}>
               <TableCell key="world-id" scope="row" align="center">
-                <Text>{world.id}</Text>
+                <Text>{getFriendlyId(world.id)}</Text>
               </TableCell>
               <TableCell key="world-name" scope="row" align="center">
                 <Text>{world.name}</Text>
