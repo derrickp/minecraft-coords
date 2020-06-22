@@ -1,4 +1,4 @@
-import { User, buildCurrentUser } from "~User";
+import { User, buildUser } from "~User";
 import React, { useState, useEffect } from "react";
 import { Grommet, ThemeType, Heading, Button, Box, Sidebar } from "grommet";
 import { Menu } from "grommet-icons";
@@ -16,7 +16,15 @@ import {
   signIn,
   signUp,
 } from "~security/authentication";
-import { persistCurrentUserIfNotPersisted } from "~firebase_data/users";
+import {
+  persistCurrentUserIfNotPersisted,
+  getCurrentPersistedInfo,
+} from "~firebase_data/users";
+import { NewWorld } from "~pages/NewWorld";
+import { subscribeToWorldChanges } from "~firebase_data/worlds";
+import { Handle } from "~Handle";
+import { World } from "~minecraft/World";
+import { PersistedInfo } from "~firebase_data/PersistedInfo";
 
 export interface AppProps {
   name: string;
@@ -42,10 +50,29 @@ export const App = (props: AppProps): JSX.Element => {
 
   const [currentUser, setUser] = useState((undefined as unknown) as User);
   useEffect(() => {
+    let worldsHandle: Handle;
+
     async function handleUserChange(authInfo?: AuthInfo) {
+      let persistedInfo: PersistedInfo;
+
+      // Our function for handling when world changes happen.
+      async function handleWorldsChanged(worlds: World[]) {
+        if (persistedInfo) {
+          const user = buildUser(persistedInfo, worlds);
+          setUser(user);
+        }
+      }
+
+      // If we have a previous subscription. Remove it.
+      if (worldsHandle) {
+        worldsHandle.remove();
+      }
+
       if (authInfo) {
         await persistCurrentUserIfNotPersisted();
-        const user = await buildCurrentUser();
+        persistedInfo = await getCurrentPersistedInfo();
+        const user = buildUser(persistedInfo);
+        worldsHandle = subscribeToWorldChanges(user.id, handleWorldsChanged);
         setUser(user);
       } else {
         setUser((undefined as unknown) as User);
@@ -100,6 +127,13 @@ export const App = (props: AppProps): JSX.Element => {
                   <Redirect to="/" />
                 ) : (
                   <SignIn signInComplete={signIn} />
+                )}
+              </Route>
+              <Route path="/new-world">
+                {currentUser ? (
+                  <NewWorld user={currentUser}></NewWorld>
+                ) : (
+                  <Redirect to="/sign-in-or-sign-up" />
                 )}
               </Route>
             </Switch>

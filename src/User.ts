@@ -1,6 +1,5 @@
 import { World } from "~minecraft/World";
-import { getCurrentPersistedInfo } from "~firebase_data/users";
-import { getWorlds } from "~firebase_data/worlds";
+import { PersistedInfo } from "~firebase_data/PersistedInfo";
 
 export interface User {
   id: string;
@@ -8,13 +7,10 @@ export interface User {
   worlds: World[];
 }
 
-export async function buildCurrentUser(): Promise<User> {
-  const info = await getCurrentPersistedInfo();
-  const persistedWorlds = await getWorlds();
-  const worlds = persistedWorlds.map((p) => p as World);
+export function buildUser(info: PersistedInfo, worlds: World[] = []): User {
   return {
-    worlds,
     id: info.id,
     email: info.email,
+    worlds,
   };
 }
