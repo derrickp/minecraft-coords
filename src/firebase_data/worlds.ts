@@ -1,18 +1,28 @@
-import { PersistedWorld } from "./PersistedWorld";
 import { getWorldCollection } from "./firebase_collections";
 import { World } from "~minecraft/World";
 import { User } from "~User";
 import { Handle } from "~Handle";
 
-export async function saveNewWorld(world: World, user: User): Promise<string> {
+export async function saveNewWorld(world: World, user: User): Promise<World> {
   const collection = getWorldCollection();
-  const persistedWorld: PersistedWorld = {
+  const persistedWorld: World = {
+    ...world,
     owner: user.id,
     collaborators: [user.id],
-    ...world,
   };
   const result = await collection.add(persistedWorld);
-  return result.path;
+  persistedWorld.storageId = result.id;
+  console.log(persistedWorld);
+  return persistedWorld;
+}
+
+export async function updateWorld(world: World): Promise<void> {
+  const collection = getWorldCollection();
+  if (!world.storageId) {
+    throw new Error("World needs to be saved first");
+  }
+  const doc = collection.doc(world.storageId);
+  await doc.update(world);
 }
 
 interface WorldUpdateSubscription {
@@ -44,6 +54,7 @@ export function subscribeToWorldChanges(
         const worlds: World[] = [];
         snapshot.forEach((doc) => {
           const world = doc.data() as World;
+          world.storageId = doc.id;
           worlds.push(world);
         });
         const index = subscriptions.findIndex((s) => s.userId === userId);
