@@ -15,3 +15,10 @@ export function getFirebaseApp(): firebase.app.App {
   }
   return app;
 }
+
+function setAppAtLoad() {
+  if (!app) {
+    app = firebase.initializeApp(config, "minecraft-coords");
+  }
+}
+setAppAtLoad();
