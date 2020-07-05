@@ -38,7 +38,7 @@ export const WorldTableLinks = (props: WorldTableLinksProps): JSX.Element => {
         </TableHeader>
         <TableBody>
           {props.worlds.map((world) => (
-            <TableRow key={world.id}>
+            <TableRow key={world.id} onClick={() => props.worldClicked(world)}>
               <TableCell key="world-id" scope="row" align="center">
                 <Text>{getFriendlyId(world.id)}</Text>
               </TableCell>
