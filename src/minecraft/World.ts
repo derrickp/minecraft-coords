@@ -7,6 +7,9 @@ export interface World {
   name: string;
   platform: Platform;
   coordinates: Coordinate[];
+  owner: string;
+  collaborators: string[];
+  storageId?: string;
 }
 
 export interface BuildWorldArgs {
@@ -35,6 +38,8 @@ export function buildWorld({
     seed,
     name,
     platform,
+    owner: idUniqueifier,
+    collaborators: [],
     id: `${idUniqueifier}-${id}`,
     coordinates: coordinates,
   };
