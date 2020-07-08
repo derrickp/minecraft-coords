@@ -7,6 +7,8 @@ export interface User {
   worlds: World[];
 }
 
+export type MaybeUser = User | undefined;
+
 export function buildUser(info: PersistedInfo, worlds: World[] = []): User {
   return {
     id: info.id,
