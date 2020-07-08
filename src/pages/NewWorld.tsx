@@ -15,7 +15,7 @@ export const NewWorld = (props: NewWorldProps): JSX.Element => {
   const [isSavingNewWorld, setSavingNewWorld] = useState(false);
 
   const onCancel = () => {
-    history.push("/");
+    history.goBack();
   };
 
   const onWorldSubmitted = async (details: NewWorldDetails) => {
