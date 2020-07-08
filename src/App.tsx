@@ -1,4 +1,4 @@
-import { User, buildUser } from "~User";
+import { MaybeUser, buildUser } from "~User";
 import React, { useState, useEffect } from "react";
 import {
   Grommet,
@@ -48,8 +48,6 @@ const theme: ThemeType = {
     },
   },
 };
-
-type MaybeUser = User | undefined;
 
 export const App = (props: AppProps): JSX.Element => {
   const [showSideBar, setShowSideBar] = useState(false);
@@ -151,11 +149,7 @@ export const App = (props: AppProps): JSX.Element => {
                   )}
                 </Route>
                 <Route path="/worlds/:worldId">
-                  {currentUser ? (
-                    <ViewWorld user={currentUser}></ViewWorld>
-                  ) : (
-                    <Redirect to="/sign-in-or-up" />
-                  )}
+                  <ViewWorld user={currentUser}></ViewWorld>
                 </Route>
               </Switch>
             </Main>

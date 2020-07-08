@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { User } from "~User";
+import { User, MaybeUser } from "~User";
 import { useParams } from "react-router-dom";
 import { World } from "~minecraft/World";
-import { Box, Heading, Text, Button } from "grommet";
-import { Add } from "grommet-icons";
+import { Box } from "grommet";
 import { Coordinate } from "~minecraft/Coordinate";
 import { CoordinateList } from "~components/CoordinateList";
 import { AddCoordinateForm } from "~components/AddCoordinateForm";
@@ -12,22 +11,28 @@ import {
   NewCoordinateDetails,
   coordinateFromDetails,
 } from "~components/NewCoordinateDetails";
+import { ViewWorldHeading } from "~components/ViewWorldHeading";
+import { AddButton } from "~components/AddButton";
 
 export interface ViewWorldProps {
-  user: User;
+  user: MaybeUser;
 }
 
 type MaybeCoordinate = Coordinate | undefined;
 
 export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
   const { worldId } = useParams();
-  const world = worldFromId(worldId, props.user);
   const [showNewCoordinate, setShowNewCoordinate] = useState(false);
   const [savingWorld, setSavingWorld] = useState(false);
   const [selectedCoordinate, setSelectedCoordinate] = useState<MaybeCoordinate>(
     undefined
   );
 
+  if (!props.user) {
+    return <div>You must be logged in to see worlds.</div>;
+  }
+
+  const world = worldFromId(worldId, props.user);
   if (!world) {
     return <div>No world with that ID.</div>;
   }
@@ -50,38 +55,28 @@ export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
   return (
     <>
       <Box margin="small" justify="start">
-        <Heading level={4}>Name</Heading>
-        <Text>{world.name}</Text>
+        {showNewCoordinate ? (
+          <AddCoordinateForm
+            onCancel={() => setShowNewCoordinate(false)}
+            onCoordinateSubmitted={onCoordinateSubmitted}
+            worldName={world.name}
+          ></AddCoordinateForm>
+        ) : (
+          <Box>
+            <ViewWorldHeading world={world}></ViewWorldHeading>
+            <CoordinateList
+              coordinates={world.coordinates}
+              coordinateClicked={(coordinate) =>
+                setSelectedCoordinate(coordinate)
+              }
+            ></CoordinateList>
+            <AddButton
+              text="Add New Coordinate"
+              onClick={() => setShowNewCoordinate(true)}
+            ></AddButton>
+          </Box>
+        )}
       </Box>
-      <Box margin="small" justify="start">
-        <Heading level={4}>Seed</Heading>
-        <Text>{world.seed}</Text>
-      </Box>
-      {showNewCoordinate ? (
-        <AddCoordinateForm
-          onCancel={() => setShowNewCoordinate(false)}
-          onCoordinateSubmitted={onCoordinateSubmitted}
-        ></AddCoordinateForm>
-      ) : (
-        <Box>
-          <CoordinateList
-            coordinates={world.coordinates}
-            coordinateClicked={(coordinate) =>
-              setSelectedCoordinate(coordinate)
-            }
-          ></CoordinateList>
-          <Button
-            hoverIndicator="dark-1"
-            onClick={() => setShowNewCoordinate(true)}
-            {...props}
-          >
-            <Box pad="small" direction="row" align="center" gap="small">
-              <Add />
-              <Text>Add New Coordinate</Text>
-            </Box>
-          </Button>
-        </Box>
-      )}
     </>
   );
 };
