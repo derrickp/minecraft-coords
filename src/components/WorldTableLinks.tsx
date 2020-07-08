@@ -8,10 +8,9 @@ import {
   TableBody,
   Text,
   TableFooter,
-  Button,
 } from "grommet";
-import { Add } from "grommet-icons";
 import { World, getFriendlyId } from "~minecraft/World";
+import { AddButton } from "./AddButton";
 
 export interface WorldTableLinksProps {
   worlds: World[];
@@ -54,16 +53,10 @@ export const WorldTableLinks = (props: WorldTableLinksProps): JSX.Element => {
         <TableFooter>
           <TableRow key="new-world">
             <TableCell key="new-world" scope="row" align="center">
-              <Button
-                hoverIndicator="dark-1"
+              <AddButton
                 onClick={props.newWorldClicked}
-                {...props}
-              >
-                <Box pad="small" direction="row" align="center" gap="small">
-                  <Add />
-                  <Text>Add New World</Text>
-                </Box>
-              </Button>
+                text="Add New World"
+              ></AddButton>
             </TableCell>
           </TableRow>
         </TableFooter>
