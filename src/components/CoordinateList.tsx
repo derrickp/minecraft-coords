@@ -1,6 +1,6 @@
 import React from "react";
 import { Coordinate } from "~minecraft/Coordinate";
-import { List, Text } from "grommet";
+import { List, Text, Box, Heading } from "grommet";
 
 export interface CoordinateListProps {
   coordinates: Coordinate[];
@@ -17,23 +17,26 @@ export const CoordinateList = (props: CoordinateListProps): JSX.Element => {
   };
 
   return (
-    <List
-      data={props.coordinates}
-      onClickItem={onItemClicked}
-      primaryKey={(coordinate) => (
-        <Text key={coordinate.name} size="large" weight="bold">
-          {coordinate.name}
-        </Text>
-      )}
-      secondaryKey={(coordinate) => (
-        <Text
-          key={`X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.z}`}
-          size="small"
-          color="dark-4"
-        >
-          {`X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.z}`}
-        </Text>
-      )}
-    ></List>
+    <Box>
+      <Heading level={4}>Coordinates</Heading>
+      <List
+        data={props.coordinates}
+        onClickItem={onItemClicked}
+        primaryKey={(coordinate) => (
+          <Text key={coordinate.name} size="large" weight="bold">
+            {coordinate.name}
+          </Text>
+        )}
+        secondaryKey={(coordinate) => (
+          <Text
+            key={`X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.z}`}
+            size="small"
+            color="dark-4"
+          >
+            {`X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.z}`}
+          </Text>
+        )}
+      ></List>
+    </Box>
   );
 };
