@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { User, MaybeUser } from "~User";
-import { useParams } from "react-router-dom";
-import { World } from "~minecraft/World";
+import { MaybeUser, worldById } from "~User";
+import { useParams, useHistory } from "react-router-dom";
 import { Box } from "grommet";
 import { Coordinate } from "~minecraft/Coordinate";
 import { CoordinateList } from "~components/CoordinateList";
@@ -13,26 +12,24 @@ import {
 } from "~components/NewCoordinateDetails";
 import { ViewWorldHeading } from "~components/ViewWorldHeading";
 import { AddButton } from "~components/AddButton";
+import { getNextCoordinateId, World } from "~minecraft/World";
 
 export interface ViewWorldProps {
   user: MaybeUser;
 }
 
-type MaybeCoordinate = Coordinate | undefined;
-
 export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
   const { worldId } = useParams();
   const [showNewCoordinate, setShowNewCoordinate] = useState(false);
   const [savingWorld, setSavingWorld] = useState(false);
-  const [selectedCoordinate, setSelectedCoordinate] = useState<MaybeCoordinate>(
-    undefined
-  );
+
+  const history = useHistory();
 
   if (!props.user) {
     return <div>You must be logged in to see worlds.</div>;
   }
 
-  const world = worldFromId(worldId, props.user);
+  const world = worldById(props.user, worldId);
   if (!world) {
     return <div>No world with that ID.</div>;
   }
@@ -42,15 +39,21 @@ export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
   }
 
   const onCoordinateSubmitted = async (details: NewCoordinateDetails) => {
-    const coordinate: Coordinate = coordinateFromDetails(details);
+    const coordinate: Coordinate = coordinateFromDetails(
+      getNextCoordinateId(world),
+      details
+    );
+
+    if (!world.coordinates) {
+      world.coordinates = [];
+    }
+
     world.coordinates.push(coordinate);
     setSavingWorld(true);
     await updateWorld(world);
     setShowNewCoordinate(false);
     setSavingWorld(false);
   };
-
-  console.log(selectedCoordinate);
 
   return (
     <>
@@ -67,7 +70,7 @@ export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
             <CoordinateList
               coordinates={world.coordinates}
               coordinateClicked={(coordinate) =>
-                setSelectedCoordinate(coordinate)
+                history.push(getCoordinateUrl(world, coordinate))
               }
             ></CoordinateList>
             <AddButton
@@ -81,6 +84,6 @@ export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
   );
 };
 
-function worldFromId(id: string, user: User): World | undefined {
-  return user.worlds.find((w) => w.id == id);
+function getCoordinateUrl(world: World, coordinate: Coordinate): string {
+  return `/worlds/${world.id}/coordinates/${coordinate.id}`;
 }
