@@ -11,9 +11,11 @@ export interface NewCoordinateDetails {
 }
 
 export function coordinateFromDetails(
+  id: number,
   details: NewCoordinateDetails
 ): Coordinate {
   return {
+    id,
     x: details.x,
     y: details.y,
     z: details.z,
