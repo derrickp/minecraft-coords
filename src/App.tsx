@@ -11,7 +11,7 @@ import {
 } from "grommet";
 import { Menu } from "grommet-icons";
 import { SignUp } from "~pages/SignUp";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { Home } from "~pages/Home";
 import { SignIn } from "~pages/SignIn";
 import { SignInOrSignUp } from "~pages/SignInOrSignUp";
@@ -34,6 +34,7 @@ import { Handle } from "~Handle";
 import { World } from "~minecraft/World";
 import { PersistedInfo } from "~firebase_data/PersistedInfo";
 import { ViewWorld } from "~pages/ViewWorld";
+import { ViewCoordinate } from "~pages/ViewCoordinate";
 
 export interface AppProps {
   name: string;
@@ -51,6 +52,7 @@ const theme: ThemeType = {
 
 export const App = (props: AppProps): JSX.Element => {
   const [showSideBar, setShowSideBar] = useState(false);
+  const history = useHistory();
 
   const handleSignOut = () => {
     setShowSideBar(false);
@@ -101,7 +103,7 @@ export const App = (props: AppProps): JSX.Element => {
     <Grommet theme={theme} themeMode="dark">
       <Box fill>
         <AppBar>
-          <Heading level="3" margin="none">
+          <Heading onClick={() => history.push("/")} level="3" margin="none">
             {props.name}
           </Heading>
           {!!currentUser && (
@@ -148,8 +150,11 @@ export const App = (props: AppProps): JSX.Element => {
                     <Redirect to="/sign-in-or-up" />
                   )}
                 </Route>
-                <Route path="/worlds/:worldId">
+                <Route exact path="/worlds/:worldId">
                   <ViewWorld user={currentUser}></ViewWorld>
+                </Route>
+                <Route path="/worlds/:worldId/coordinates/:coordinateId">
+                  <ViewCoordinate user={currentUser}></ViewCoordinate>
                 </Route>
               </Switch>
             </Main>
