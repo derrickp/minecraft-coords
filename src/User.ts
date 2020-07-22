@@ -1,4 +1,4 @@
-import { World } from "~minecraft/World";
+import { World, MaybeWorld } from "~minecraft/World";
 import { PersistedInfo } from "~firebase_data/PersistedInfo";
 
 export interface User {
@@ -15,4 +15,8 @@ export function buildUser(info: PersistedInfo, worlds: World[] = []): User {
     email: info.email,
     worlds,
   };
+}
+
+export function worldById(user: User, worldId: string): MaybeWorld {
+  return user.worlds.find((w) => w.id == worldId);
 }
