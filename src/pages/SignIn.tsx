@@ -1,5 +1,5 @@
 import React from "react";
-import { PasswordForm } from "~components/PasswordForm";
+import { PasswordForm } from "../components/PasswordForm";
 
 export interface SignInProps {
   signInComplete: (email: string, password: string) => void;

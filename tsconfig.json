@@ -16,9 +16,6 @@
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     // "outDir": "./",                        /* Redirect output structure to the directory. */
     "baseUrl": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
-    "paths": {
-      "~*": ["./*"]
-    },
     // "composite": true,                     /* Enable project compilation */
     // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */
     // "removeComments": true,                /* Do not emit comments to output. */

@@ -1,7 +1,7 @@
 import { getWorldCollection } from "./firebase_collections";
-import { World } from "~minecraft/World";
-import { User } from "~User";
-import { Handle } from "~Handle";
+import { World } from "../minecraft/World";
+import { User } from "../User";
+import { Handle } from "../Handle";
 
 export async function saveNewWorld(world: World, user: User): Promise<World> {
   const collection = getWorldCollection();

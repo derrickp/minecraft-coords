@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { buildWorld } from "~minecraft/World";
+import { buildWorld } from "../minecraft/World";
 import { Box } from "grommet";
-import { User } from "~User";
-import { NewWorldForm, NewWorldDetails } from "~components/NewWorldForm";
+import { User } from "../User";
+import { NewWorldForm, NewWorldDetails } from "../components/NewWorldForm";
 import { useHistory } from "react-router-dom";
-import { saveNewWorld } from "~firebase_data/worlds";
+import { saveNewWorld } from "../firebase_data/worlds";
 
 export interface NewWorldProps {
   user: User;

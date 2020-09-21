@@ -1,5 +1,5 @@
 import React from "react";
-import { World } from "~minecraft/World";
+import { World } from "../minecraft/World";
 import { Box, Heading, Text } from "grommet";
 
 export interface ViewWorldHeadingProps {

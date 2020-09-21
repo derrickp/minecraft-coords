@@ -1,4 +1,4 @@
-import { Coordinate } from "~minecraft/Coordinate";
+import { Coordinate } from "../minecraft/Coordinate";
 
 export interface NewCoordinateDetails {
   x: string;

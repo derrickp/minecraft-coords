@@ -1,4 +1,4 @@
-import { getCurrentUserInfo } from "~security/authentication";
+import { getCurrentUserInfo } from "../security/authentication";
 import { getUserCollection } from "./firebase_collections";
 import { NoCurrentUserError } from "./NoCurrentUserError";
 import { PersistedInfo } from "./PersistedInfo";

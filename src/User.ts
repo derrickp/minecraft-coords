@@ -1,5 +1,5 @@
-import { World, MaybeWorld } from "~minecraft/World";
-import { PersistedInfo } from "~firebase_data/PersistedInfo";
+import { World, MaybeWorld } from "./minecraft/World";
+import { PersistedInfo } from "./firebase_data/PersistedInfo";
 
 export interface User {
   id: string;

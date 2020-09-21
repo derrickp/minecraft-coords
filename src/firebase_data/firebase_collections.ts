@@ -1,4 +1,4 @@
-import { getFirebaseApp } from "~bootstrap/firebase";
+import { getFirebaseApp } from "../bootstrap/firebase";
 import { firestore } from "firebase";
 
 export function getUserCollection(): firestore.CollectionReference {

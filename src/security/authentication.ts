@@ -1,6 +1,6 @@
 import { infoFromFirebaseUser } from "./firebaseTransforms";
-import { Handle } from "~Handle";
-import { getFirebaseApp } from "~bootstrap/firebase";
+import { Handle } from "../Handle";
+import { getFirebaseApp } from "../bootstrap/firebase";
 import { AuthInfo } from "./AuthInfo";
 
 const subscriptions: Set<(user?: AuthInfo) => void> = new Set();

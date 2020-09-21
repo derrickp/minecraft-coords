@@ -9,7 +9,7 @@ import {
   Text,
   TableFooter,
 } from "grommet";
-import { World, getFriendlyId } from "~minecraft/World";
+import { World, getFriendlyId } from "../minecraft/World";
 import { AddButton } from "./AddButton";
 
 export interface WorldTableLinksProps {

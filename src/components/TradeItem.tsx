@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "grommet";
 
-import { Trade } from "~minecraft/Trade";
+import { Trade } from "../minecraft/Trade";
 
 export interface TradeItemProps {
   trade: Trade;

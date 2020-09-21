@@ -1,9 +1,9 @@
 import React from "react";
-import { User } from "~User";
+import { User } from "../User";
 import { useHistory } from "react-router-dom";
 import { Text, Box } from "grommet";
-import { WorldTableLinks } from "~components/WorldTableLinks";
-import { World } from "~minecraft/World";
+import { WorldTableLinks } from "../components/WorldTableLinks";
+import { World } from "../minecraft/World";
 
 export interface HomeProps {
   user: User;

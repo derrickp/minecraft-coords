@@ -1,4 +1,4 @@
-import { MaybeUser, buildUser } from "~User";
+import { MaybeUser, buildUser } from "./User";
 import React, { useState, useEffect } from "react";
 import {
   Grommet,
@@ -10,31 +10,31 @@ import {
   Main,
 } from "grommet";
 import { Menu } from "grommet-icons";
-import { SignUp } from "~pages/SignUp";
+import { SignUp } from "./pages/SignUp";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
-import { Home } from "~pages/Home";
-import { SignIn } from "~pages/SignIn";
-import { SignInOrSignUp } from "~pages/SignInOrSignUp";
-import { AppBar } from "~components/AppBar";
-import { SidebarNav } from "~components/SidebarNav";
-import { AuthInfo } from "~security/AuthInfo";
+import { Home } from "./pages/Home";
+import { SignIn } from "./pages/SignIn";
+import { SignInOrSignUp } from "./pages/SignInOrSignUp";
+import { AppBar } from "./components/AppBar";
+import { SidebarNav } from "./components/SidebarNav";
+import { AuthInfo } from "./security/AuthInfo";
 import {
   subscribeToUserChanges,
   signOut,
   signIn,
   signUp,
-} from "~security/authentication";
+} from "./security/authentication";
 import {
   persistCurrentUserIfNotPersisted,
   getCurrentPersistedInfo,
-} from "~firebase_data/users";
-import { NewWorld } from "~pages/NewWorld";
-import { subscribeToWorldChanges } from "~firebase_data/worlds";
-import { Handle } from "~Handle";
-import { World } from "~minecraft/World";
-import { PersistedInfo } from "~firebase_data/PersistedInfo";
-import { ViewWorld } from "~pages/ViewWorld";
-import { ViewCoordinate } from "~pages/ViewCoordinate";
+} from "./firebase_data/users";
+import { NewWorld } from "./pages/NewWorld";
+import { subscribeToWorldChanges } from "./firebase_data/worlds";
+import { Handle } from "./Handle";
+import { World } from "./minecraft/World";
+import { PersistedInfo } from "./firebase_data/PersistedInfo";
+import { ViewWorld } from "./pages/ViewWorld";
+import { ViewCoordinate } from "./pages/ViewCoordinate";
 
 export interface AppProps {
   name: string;

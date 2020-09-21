@@ -1,25 +1,29 @@
 import React, { useState } from "react";
-import { MaybeUser, worldById } from "~User";
+import { MaybeUser, worldById } from "../User";
 import { useParams, useHistory } from "react-router-dom";
 import { Box } from "grommet";
-import { Coordinate } from "~minecraft/Coordinate";
-import { CoordinateList } from "~components/CoordinateList";
-import { AddCoordinateForm } from "~components/AddCoordinateForm";
-import { updateWorld } from "~firebase_data/worlds";
+import { Coordinate } from "../minecraft/Coordinate";
+import { CoordinateList } from "../components/CoordinateList";
+import { AddCoordinateForm } from "../components/AddCoordinateForm";
+import { updateWorld } from "../firebase_data/worlds";
 import {
   NewCoordinateDetails,
   coordinateFromDetails,
-} from "~components/NewCoordinateDetails";
-import { ViewWorldHeading } from "~components/ViewWorldHeading";
-import { AddButton } from "~components/AddButton";
-import { getNextCoordinateId, World } from "~minecraft/World";
+} from "../components/NewCoordinateDetails";
+import { ViewWorldHeading } from "../components/ViewWorldHeading";
+import { AddButton } from "../components/AddButton";
+import { getNextCoordinateId, World } from "../minecraft/World";
 
 export interface ViewWorldProps {
   user: MaybeUser;
 }
 
+export interface RouteParams {
+  worldId: string;
+}
+
 export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
-  const { worldId } = useParams();
+  const { worldId } = useParams<RouteParams>();
   const [showNewCoordinate, setShowNewCoordinate] = useState(false);
   const [savingWorld, setSavingWorld] = useState(false);
 

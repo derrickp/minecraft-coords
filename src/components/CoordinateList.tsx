@@ -1,5 +1,5 @@
 import React from "react";
-import { Coordinate } from "~minecraft/Coordinate";
+import { Coordinate } from "../minecraft/Coordinate";
 import { List, Text, Box, Heading } from "grommet";
 
 export interface CoordinateListProps {

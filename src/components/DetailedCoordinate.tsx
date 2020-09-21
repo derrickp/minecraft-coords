@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Coordinate } from "~minecraft/Coordinate";
-import { VillagerTrade } from "~minecraft/VillagerTrade";
+import { Coordinate } from "../minecraft/Coordinate";
+import { VillagerTrade } from "../minecraft/VillagerTrade";
 import { Box, Text } from "grommet";
 import { VillagerTrades } from "./VillagerTrades";
 import { AddButton } from "./AddButton";

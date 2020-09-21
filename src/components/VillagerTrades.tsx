@@ -1,5 +1,5 @@
 import React from "react";
-import { VillagerTrade } from "~minecraft/VillagerTrade";
+import { VillagerTrade } from "../minecraft/VillagerTrade";
 import { Text, Box, Button } from "grommet";
 import { Edit } from "grommet-icons";
 

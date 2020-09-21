@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { MaybeUser, worldById } from "~User";
+import { MaybeUser, worldById } from "../User";
 import { useParams } from "react-router-dom";
-import { coordinateById } from "~minecraft/World";
-import { parseCoordinateId } from "~minecraft/Coordinate";
-import { VillagerTrade } from "~minecraft/VillagerTrade";
-import { updateWorld } from "~firebase_data/worlds";
-import { DetailedCoordinate } from "~components/DetailedCoordinate";
+import { coordinateById } from "../minecraft/World";
+import { parseCoordinateId } from "../minecraft/Coordinate";
+import { VillagerTrade } from "../minecraft/VillagerTrade";
+import { updateWorld } from "../firebase_data/worlds";
+import { DetailedCoordinate } from "../components/DetailedCoordinate";
 
 export interface ViewCoordinateProps {
   user: MaybeUser;
 }
 
+export interface ViewCoordinateRouteParams {
+  worldId: string;
+  coordinateId: string;
+}
+
 export const ViewCoordinate = (props: ViewCoordinateProps): JSX.Element => {
-  const { worldId, coordinateId } = useParams();
+  const { worldId, coordinateId } = useParams<ViewCoordinateRouteParams>();
   const { user } = props;
   const [isSavingCoordinate, setSavingCoordinate] = useState(false);
 
