@@ -25,15 +25,13 @@
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.5",
     "styled-components": "^5.1.1",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "parcel": "^2.0.0-beta.1"
   },
   "scripts": {
     "compile": "tsc -v && tsc --noEmit",
     "parcel": "parcel src/index.html",
     "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
-  },
-  "devDependencies": {
-    "parcel": "^2.0.0-beta.1"
   }
 }
