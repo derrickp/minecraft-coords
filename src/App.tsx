@@ -103,7 +103,7 @@ export const App = (props: AppProps): JSX.Element => {
     <Grommet theme={theme} themeMode="dark">
       <Box fill>
         <AppBar>
-          <Heading onClick={() => history.push("/")} level="3" margin="none">
+          <Heading onClick={() => history.push("/")} level="2" margin="none">
             {props.name}
           </Heading>
           {!!currentUser && (
