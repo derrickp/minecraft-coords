@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 
 // Side-effect imports
-import "regenerator-runtime/runtime";
 import "firebase/auth";
 import "firebase/firestore";
 
