@@ -19,7 +19,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "firebase": "^8.2.9",
     "grommet": "^2.16.3",
-    "parcel": "^1.12.4",
+    "parcel": "^2.0.0-beta.1",
     "polished": "^4.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "compile": "tsc -v && tsc --noEmit",
-    "parcel": "parcel src/index.html",
+    "start": "parcel serve src/index.html",
     "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   }
