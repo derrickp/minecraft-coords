@@ -1,34 +1,40 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { buildWorld } from "../minecraft/World";
 import { Box } from "grommet";
 import { User } from "../User";
 import { NewWorldForm, NewWorldDetails } from "../components/NewWorldForm";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { saveNewWorld } from "../firebase_data/worlds";
 
 export interface NewWorldProps {
-  user: User;
+  user?: User;
 }
 
-export const NewWorld = (props: NewWorldProps): JSX.Element => {
-  const history = useHistory();
+export const NewWorld: React.FC<NewWorldProps> = ({ user }) => {
+  const navigate = useNavigate();
   const [isSavingNewWorld, setSavingNewWorld] = useState(false);
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/sign-in-or-up");
+    }
+  }, [user]);
+
   const onCancel = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   const onWorldSubmitted = async (details: NewWorldDetails) => {
     const world = buildWorld({
-      idUniqueifier: props.user.id,
+      idUniqueifier: user!.id,
       id: details.id,
       seed: details.seed,
       name: details.name,
     });
     setSavingNewWorld(true);
-    const result = await saveNewWorld(world, props.user);
+    const result = await saveNewWorld(world, user!);
     console.log(result);
-    history.push("/");
+    navigate("/");
   };
 
   return (
@@ -40,7 +46,7 @@ export const NewWorld = (props: NewWorldProps): JSX.Element => {
           <NewWorldForm
             onCancel={onCancel}
             onWorldSubmitted={onWorldSubmitted}
-          ></NewWorldForm>
+          />
         )}
       </Box>
     </Box>

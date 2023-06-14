@@ -1,4 +1,3 @@
-import React from "react";
 import { Coordinate } from "../minecraft/Coordinate";
 import { List, Text, Box, Heading } from "grommet";
 
@@ -9,10 +8,13 @@ export interface CoordinateListProps {
 
 type ClickEvent = React.MouseEvent & { item?: Coordinate; index?: number };
 
-export const CoordinateList = (props: CoordinateListProps): JSX.Element => {
+export const CoordinateList: React.FC<CoordinateListProps> = ({
+  coordinateClicked,
+  coordinates,
+}) => {
   const onItemClicked = (event: ClickEvent) => {
     if (event.item) {
-      props.coordinateClicked(event.item);
+      coordinateClicked(event.item);
     }
   };
 
@@ -20,7 +22,7 @@ export const CoordinateList = (props: CoordinateListProps): JSX.Element => {
     <Box>
       <Heading level={4}>Coordinates</Heading>
       <List
-        data={props.coordinates}
+        data={coordinates}
         onClickItem={onItemClicked}
         primaryKey={(coordinate) => (
           <Text key={coordinate.name} size="large" weight="bold">
@@ -36,6 +38,7 @@ export const CoordinateList = (props: CoordinateListProps): JSX.Element => {
             {`X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.z}`}
           </Text>
         )}
+        itemKey={(item) => item.id}
       ></List>
     </Box>
   );

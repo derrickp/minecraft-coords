@@ -1,12 +1,18 @@
 import { getFirebaseApp } from "../bootstrap/firebase";
-import firebase from "firebase";
+import {
+  collection,
+  getFirestore,
+  CollectionReference,
+} from "firebase/firestore";
 
-export function getUserCollection(): firebase.firestore.CollectionReference {
+export function getUserCollection(): CollectionReference {
   const app = getFirebaseApp();
-  return app.firestore().collection("users");
+  const firestore = getFirestore(app);
+  return collection(firestore, "users");
 }
 
-export function getWorldCollection(): firebase.firestore.CollectionReference {
+export function getWorldCollection(): CollectionReference {
   const app = getFirebaseApp();
-  return app.firestore().collection("worlds");
+  const firestore = getFirestore(app);
+  return collection(firestore, "worlds");
 }

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MaybeUser, worldById } from "../User";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { coordinateById } from "../minecraft/World";
 import { parseCoordinateId } from "../minecraft/Coordinate";
 import { VillagerTrade } from "../minecraft/VillagerTrade";
@@ -16,16 +16,22 @@ export interface ViewCoordinateRouteParams {
   coordinateId: string;
 }
 
-export const ViewCoordinate = (props: ViewCoordinateProps): JSX.Element => {
-  const { worldId, coordinateId } = useParams<ViewCoordinateRouteParams>();
-  const { user } = props;
+export const ViewCoordinate: React.FC<ViewCoordinateProps> = ({ user }) => {
+  const { worldId, coordinateId } = useParams();
+  const navigate = useNavigate();
   const [isSavingCoordinate, setSavingCoordinate] = useState(false);
+
+  useEffect(() => {
+    if (!user || !worldId || !coordinateId) {
+      navigate("/");
+    }
+  }, [user, worldId, coordinateId]);
 
   if (!user) {
     return <div>You must be logged in to see a coordinate.</div>;
   }
 
-  const world = worldById(user, worldId);
+  const world = worldById(user, worldId!);
 
   if (!world) {
     return (
@@ -33,7 +39,7 @@ export const ViewCoordinate = (props: ViewCoordinateProps): JSX.Element => {
     );
   }
 
-  const actualCoordinateId = parseCoordinateId(coordinateId);
+  const actualCoordinateId = parseCoordinateId(coordinateId!);
   if (!actualCoordinateId) {
     return <div>{`${coordinateId} is not a valid coordinate id`}</div>;
   }

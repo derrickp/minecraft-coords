@@ -7,8 +7,6 @@ export interface TradeItemProps {
   trade: Trade;
 }
 
-export const TradeItem = (props: TradeItemProps): JSX.Element => {
-  return (
-    <Text size="medium">{`${props.trade.given} -> ${props.trade.received}`}</Text>
-  );
-};
+export const TradeItem: React.FC<TradeItemProps> = ({ trade }) => (
+  <Text size="medium">{`${trade.given} -> ${trade.received}`}</Text>
+);

@@ -6,31 +6,27 @@ export interface SideBarNavProps {
   signOut: () => void;
 }
 
-export const SidebarNav = (props: SideBarNavProps): JSX.Element => {
-  return (
-    <Nav gap="medium">
-      <SignOutButton signOut={props.signOut}></SignOutButton>
-    </Nav>
-  );
-};
+export const SidebarNav: React.FC<SideBarNavProps> = ({ signOut }) => (
+  <Nav gap="medium">
+    <SignOutButton signOut={signOut}></SignOutButton>
+  </Nav>
+);
 
 const SignOutButton = ({
   signOut,
   ...rest
 }: {
   signOut: () => void;
-}): JSX.Element => {
-  return (
-    <Box pad="small">
-      <Button
-        gap="medium"
-        alignSelf="start"
-        plain
-        icon={<Logout />}
-        label="Sign Out"
-        onClick={signOut}
-        {...rest}
-      />
-    </Box>
-  );
-};
+}): JSX.Element => (
+  <Box pad="small">
+    <Button
+      gap="medium"
+      alignSelf="start"
+      plain
+      icon={<Logout />}
+      label="Sign Out"
+      onClick={signOut}
+      {...rest}
+    />
+  </Box>
+);

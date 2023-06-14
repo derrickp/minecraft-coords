@@ -11,14 +11,14 @@ export interface EditVillagerTradeProps {
   onCancel: () => void;
 }
 
-export const EditVillagerTrade = (
-  props: EditVillagerTradeProps
-): JSX.Element => {
-  const [villagerType, setVillagerType] = useState(
-    props.villagerTrade.villagerType
-  );
-  const [name, setName] = useState(props.villagerTrade.name);
-  const [trades, setTrades] = useState(props.villagerTrade.availableTrades);
+export const EditVillagerTrade: React.FC<EditVillagerTradeProps> = ({
+  villagerTrade,
+  villagerTradeUpdated,
+  onCancel,
+}) => {
+  const [villagerType, setVillagerType] = useState(villagerTrade.villagerType);
+  const [name, setName] = useState(villagerTrade.name);
+  const [trades, setTrades] = useState(villagerTrade.availableTrades);
 
   const [newGiven, setNewGiven] = useState("");
   const [newReceived, setNewReceived] = useState("");
@@ -29,7 +29,7 @@ export const EditVillagerTrade = (
       villagerType,
       availableTrades: trades,
     };
-    props.villagerTradeUpdated(trade);
+    villagerTradeUpdated(trade);
   };
 
   const addNewTrade = () => {
@@ -67,8 +67,8 @@ export const EditVillagerTrade = (
   return (
     <Form
       onReset={() => {
-        setVillagerType(props.villagerTrade.villagerType);
-        setName(props.villagerTrade.name);
+        setVillagerType(villagerTrade.villagerType);
+        setName(villagerTrade.name);
         setNewGiven("");
         setNewReceived("");
       }}
@@ -108,7 +108,7 @@ export const EditVillagerTrade = (
         <Button onClick={addNewTrade}>Add</Button>
       </Box>
       <Box direction="row" justify="between" margin={{ top: "medium" }}>
-        <Button label="Cancel" onClick={props.onCancel} />
+        <Button label="Cancel" onClick={onCancel} />
         <Button type="reset" label="Reset Form" />
         <Button type="submit" label="Save Villager Trade" primary />
       </Box>

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MaybeUser, worldById } from "../User";
-import { useParams, useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box } from "grommet";
 import { Coordinate } from "../minecraft/Coordinate";
 import { CoordinateList } from "../components/CoordinateList";
@@ -22,18 +22,17 @@ export interface RouteParams {
   worldId: string;
 }
 
-export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
-  const { worldId } = useParams<RouteParams>();
+export const ViewWorld: React.FC<ViewWorldProps> = ({ user }) => {
+  const { worldId } = useParams();
   const [showNewCoordinate, setShowNewCoordinate] = useState(false);
   const [savingWorld, setSavingWorld] = useState(false);
+  const navigate = useNavigate();
 
-  const history = useHistory();
-
-  if (!props.user) {
+  if (!user) {
     return <div>You must be logged in to see worlds.</div>;
   }
 
-  const world = worldById(props.user, worldId);
+  const world = worldById(user, worldId ?? "");
   if (!world) {
     return <div>No world with that ID.</div>;
   }
@@ -67,20 +66,20 @@ export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
             onCancel={() => setShowNewCoordinate(false)}
             onCoordinateSubmitted={onCoordinateSubmitted}
             worldName={world.name}
-          ></AddCoordinateForm>
+          />
         ) : (
           <Box>
-            <ViewWorldHeading world={world}></ViewWorldHeading>
+            <ViewWorldHeading world={world} />
             <CoordinateList
               coordinates={world.coordinates}
               coordinateClicked={(coordinate) =>
-                history.push(getCoordinateUrl(world, coordinate))
+                navigate(getCoordinateUrl(world, coordinate))
               }
-            ></CoordinateList>
+            />
             <AddButton
               text="Add New Coordinate"
               onClick={() => setShowNewCoordinate(true)}
-            ></AddButton>
+            />
           </Box>
         )}
       </Box>
@@ -88,6 +87,5 @@ export const ViewWorld = (props: ViewWorldProps): JSX.Element => {
   );
 };
 
-function getCoordinateUrl(world: World, coordinate: Coordinate): string {
-  return `/worlds/${world.id}/coordinates/${coordinate.id}`;
-}
+const getCoordinateUrl = (world: World, coordinate: Coordinate): string =>
+  `/worlds/${world.id}/coordinates/${coordinate.id}`;

@@ -1,5 +1,5 @@
 export const config = {
-  apiKey: process.env.FIREBASE_API_KEY,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "minecraft-coordinates.firebaseapp.com",
   databaseURL: "https://minecraft-coordinates.firebaseio.com",
   projectId: "minecraft-coordinates",

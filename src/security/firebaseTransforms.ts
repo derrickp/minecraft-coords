@@ -1,7 +1,7 @@
 import { AuthInfo } from "./AuthInfo";
-import firebase from "firebase";
+import { User } from "firebase/auth";
 
-export function infoFromFirebaseUser(firebaseUser: firebase.User): AuthInfo {
+export function infoFromFirebaseUser(firebaseUser: User): AuthInfo {
   const email = !firebaseUser.email ? "" : firebaseUser.email;
 
   return {

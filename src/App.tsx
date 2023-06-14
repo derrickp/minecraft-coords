@@ -11,7 +11,7 @@ import {
 } from "grommet";
 import { Menu } from "grommet-icons";
 import { SignUp } from "./pages/SignUp";
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
 import { SignInOrSignUp } from "./pages/SignInOrSignUp";
@@ -52,7 +52,7 @@ const theme: ThemeType = {
 
 export const App = (props: AppProps): JSX.Element => {
   const [showSideBar, setShowSideBar] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     setShowSideBar(false);
@@ -103,8 +103,8 @@ export const App = (props: AppProps): JSX.Element => {
     <Grommet theme={theme} themeMode="dark">
       <Box fill>
         <AppBar>
-          <Heading onClick={() => history.push("/")} level="2" margin="none">
-            {props.name}
+          <Heading level="2" margin="none">
+            <Link to="/">{props.name}</Link>
           </Heading>
           {!!currentUser && (
             <Button
@@ -118,45 +118,37 @@ export const App = (props: AppProps): JSX.Element => {
         <Box direction="row" flex overflow={{ horizontal: "hidden" }}>
           <Box flex align="center" justify="evenly">
             <Main>
-              <Switch>
-                <Route exact path="/">
-                  {currentUser ? (
-                    <Home user={currentUser} />
-                  ) : (
-                    <Redirect to="/sign-in-or-up" />
-                  )}
-                </Route>
-                <Route path="/sign-in-or-up">
-                  {currentUser ? <Redirect to="/" /> : <SignInOrSignUp />}
-                </Route>
-                <Route path="/sign-up">
-                  {currentUser ? (
-                    <Redirect to="/" />
-                  ) : (
-                    <SignUp signUpComplete={signUp} />
-                  )}
-                </Route>
-                <Route path="/sign-in">
-                  {currentUser ? (
-                    <Redirect to="/" />
-                  ) : (
-                    <SignIn signInComplete={signIn} />
-                  )}
-                </Route>
-                <Route path="/new-world">
-                  {currentUser ? (
-                    <NewWorld user={currentUser}></NewWorld>
-                  ) : (
-                    <Redirect to="/sign-in-or-up" />
-                  )}
-                </Route>
-                <Route exact path="/worlds/:worldId">
-                  <ViewWorld user={currentUser}></ViewWorld>
-                </Route>
-                <Route path="/worlds/:worldId/coordinates/:coordinateId">
-                  <ViewCoordinate user={currentUser}></ViewCoordinate>
-                </Route>
-              </Switch>
+              <Routes>
+                <Route path="/" element={<Home user={currentUser} />} />
+                <Route
+                  path="/sign-in-or-up"
+                  element={<SignInOrSignUp user={currentUser} />}
+                />
+                <Route
+                  path="/sign-up"
+                  element={
+                    <SignUp signUpComplete={signUp} user={currentUser} />
+                  }
+                />
+                <Route
+                  path="/sign-in"
+                  element={
+                    <SignIn signInComplete={signIn} user={currentUser} />
+                  }
+                />
+                <Route
+                  path="/new-world"
+                  element={<NewWorld user={currentUser} />}
+                />
+                <Route
+                  path="/worlds/:worldId"
+                  element={<ViewWorld user={currentUser} />}
+                />
+                <Route
+                  path="/worlds/:worldId/coordinates/:coordinateId"
+                  element={<ViewCoordinate user={currentUser} />}
+                />
+              </Routes>
             </Main>
           </Box>
           {showSideBar && (

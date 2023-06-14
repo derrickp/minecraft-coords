@@ -1,16 +1,23 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button } from "grommet";
+import { User } from "../User";
 
-export const SignInOrSignUp = (): JSX.Element => {
-  const history = useHistory();
+export const SignInOrSignUp: React.FC<{ user?: User }> = ({ user }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const onSignInClick = () => {
-    history.push("/sign-in");
+    navigate("/sign-in");
   };
 
   const onSignUpClick = () => {
-    history.push("/sign-up");
+    navigate("/sign-up");
   };
 
   return (

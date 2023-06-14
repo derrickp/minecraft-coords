@@ -1,23 +1,19 @@
-import firebase from "firebase/app";
-
-// Side-effect imports
-import "firebase/auth";
-import "firebase/firestore";
+import { FirebaseApp, initializeApp } from "firebase/app";
 
 import { config } from "../config/firebase";
 
-let app: firebase.app.App;
+let app: FirebaseApp;
 
-export function getFirebaseApp(): firebase.app.App {
+export function getFirebaseApp(): FirebaseApp {
   if (!app) {
-    app = firebase.initializeApp(config, "minecraft-coords");
+    app = initializeApp(config, "minecraft-coords");
   }
   return app;
 }
 
 function setAppAtLoad() {
   if (!app) {
-    app = firebase.initializeApp(config, "minecraft-coords");
+    app = initializeApp(config, "minecraft-coords");
   }
 }
 setAppAtLoad();

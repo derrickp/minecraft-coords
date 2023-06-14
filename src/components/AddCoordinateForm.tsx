@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Form,
   FormField,
@@ -12,13 +12,11 @@ import { NewCoordinateDetails } from "./NewCoordinateDetails";
 
 export interface AddCoordinateFormProps {
   worldName: string;
-  onCoordinateSubmitted: (coordiante: NewCoordinateDetails) => void;
+  onCoordinateSubmitted: (coordinate: NewCoordinateDetails) => void;
   onCancel: () => void;
 }
 
-export const AddCoordinateForm = (
-  props: AddCoordinateFormProps
-): JSX.Element => {
+export const AddCoordinateForm: React.FC<AddCoordinateFormProps> = (props) => {
   const [x, setX] = useState<string>("");
   const [y, setY] = useState<string>("");
   const [z, setZ] = useState<string>("");

@@ -1,33 +1,33 @@
-import React from "react";
 import { User } from "../User";
-import { useHistory } from "react-router-dom";
 import { Text, Box } from "grommet";
 import { WorldTableLinks } from "../components/WorldTableLinks";
 import { World } from "../minecraft/World";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export interface HomeProps {
-  user: User;
+  user?: User;
 }
 
-export const Home = (props: HomeProps): JSX.Element => {
-  const history = useHistory();
+export const Home: React.FC<HomeProps> = ({ user }) => {
+  const navigate = useNavigate();
 
-  const worldClicked = (world: World) => {
-    history.push(`/worlds/${world.id}`);
-  };
+  useEffect(() => {
+    if (!user) {
+      navigate("/sign-in-or-up");
+    }
+  }, [user]);
 
-  const newWorldClicked = () => {
-    history.push("/new-world");
-  };
+  if (!user) {
+    return <></>;
+  }
+
+  const newWorldClicked = () => navigate("/new-world");
 
   return (
     <Box align="center" fill>
-      <Text>{`Welcome ${props.user.email}`}</Text>
-      <WorldTableLinks
-        newWorldClicked={newWorldClicked}
-        worldClicked={worldClicked}
-        worlds={props.user.worlds}
-      ></WorldTableLinks>
+      <Text>{`Welcome ${user.email}`}</Text>
+      <WorldTableLinks newWorldClicked={newWorldClicked} worlds={user.worlds} />
     </Box>
   );
 };

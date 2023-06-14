@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Coordinate } from "../minecraft/Coordinate";
 import { VillagerTrade } from "../minecraft/VillagerTrade";
 import { Box, Text } from "grommet";
@@ -12,10 +12,11 @@ export interface DetailedCoordinateProps {
   villageTradeEdited: (index: number, newTrade: VillagerTrade) => void;
 }
 
-export const DetailedCoordinate = (
-  props: DetailedCoordinateProps
-): JSX.Element => {
-  const { coordinate } = props;
+export const DetailedCoordinate: React.FC<DetailedCoordinateProps> = ({
+  coordinate,
+  villageTradeEdited,
+  villagerTradeAdded,
+}) => {
   const [showAddNewVillagerTrade, setShowAddNewVillagerTrade] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -32,20 +33,20 @@ export const DetailedCoordinate = (
     return (
       <EditVillagerTrade
         villagerTrade={emptyTrade}
-        villagerTradeUpdated={(trade) => props.villagerTradeAdded(trade)}
+        villagerTradeUpdated={(trade) => villagerTradeAdded(trade)}
         onCancel={() => setShowAddNewVillagerTrade(false)}
       ></EditVillagerTrade>
     );
   }
 
   if (selectedIndex >= 0) {
-    const villagerTrade = props.coordinate.villagerTrades[selectedIndex];
+    const villagerTrade = coordinate.villagerTrades[selectedIndex];
     return (
       <EditVillagerTrade
         villagerTrade={villagerTrade}
         onCancel={() => setSelectedIndex(-1)}
         villagerTradeUpdated={(newTrade) => {
-          props.villageTradeEdited(selectedIndex, newTrade);
+          villageTradeEdited(selectedIndex, newTrade);
         }}
       ></EditVillagerTrade>
     );

@@ -14,14 +14,17 @@ export interface NewWorldFormProps {
   onCancel: () => void;
 }
 
-export const NewWorldForm = (props: NewWorldFormProps): JSX.Element => {
+export const NewWorldForm: React.FC<NewWorldFormProps> = ({
+  onCancel,
+  onWorldSubmitted,
+}) => {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [seed, setSeed] = useState("");
   const [platform, setPlatform] = useState(Platform.BEDROCK);
 
   const onSubmit = () => {
-    props.onWorldSubmitted({
+    onWorldSubmitted({
       id,
       name,
       seed,
@@ -71,7 +74,7 @@ export const NewWorldForm = (props: NewWorldFormProps): JSX.Element => {
         />
       </FormField>
       <Box direction="row" justify="between" margin={{ top: "medium" }}>
-        <Button label="Cancel" onClick={props.onCancel} />
+        <Button label="Cancel" onClick={onCancel} />
         <Button type="reset" label="Reset Form" />
         <Button type="submit" label="Save World" primary />
       </Box>

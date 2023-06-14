@@ -6,12 +6,15 @@ export interface PasswordFormProps {
   buttonText: string;
 }
 
-export const PasswordForm = (props: PasswordFormProps): JSX.Element => {
+export const PasswordForm: React.FC<PasswordFormProps> = ({
+  buttonText,
+  onFormComplete,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    props.onFormComplete(email, password);
+    onFormComplete(email, password);
   };
 
   return (
@@ -32,7 +35,7 @@ export const PasswordForm = (props: PasswordFormProps): JSX.Element => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </FormField>
-        <Button type="submit" label={props.buttonText} primary />
+        <Button type="submit" label={buttonText} primary />
       </Form>
     </Box>
   );

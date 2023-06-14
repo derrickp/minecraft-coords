@@ -1,5 +1,4 @@
-import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { App } from "./App";
@@ -11,11 +10,16 @@ if (!element) {
 }
 
 function renderApp() {
-  render(
+  if (!element) {
+    return;
+  }
+
+  const root = createRoot(element);
+
+  root.render(
     <BrowserRouter>
       <App name="Minecraft Coordinate Keeper" />
-    </BrowserRouter>,
-    element
+    </BrowserRouter>
   );
 }
 

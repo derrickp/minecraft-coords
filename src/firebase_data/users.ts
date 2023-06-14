@@ -3,6 +3,7 @@ import { getUserCollection } from "./firebase_collections";
 import { NoCurrentUserError } from "./NoCurrentUserError";
 import { PersistedInfo } from "./PersistedInfo";
 import { NoUserFoundError } from "./NoUserFoundError";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 
 export async function isCurrentUserPersisted(): Promise<boolean> {
   const currentInfo = getCurrentUserInfo();
@@ -11,8 +12,9 @@ export async function isCurrentUserPersisted(): Promise<boolean> {
   }
 
   const collection = getUserCollection();
-  const query = collection.where("id", "==", currentInfo.id);
-  const result = await query.get();
+  const currentWhere = where("id", "==", currentInfo.id);
+  const currentQuery = query(collection, currentWhere);
+  const result = await getDocs(currentQuery);
 
   return result.size >= 1;
 }
@@ -33,14 +35,15 @@ export async function getCurrentPersistedInfo(): Promise<PersistedInfo> {
   }
 
   const collection = getUserCollection();
-  const query = collection.where("id", "==", currentInfo.id);
-  const result = await query.get();
+  const userWhere = where("id", "==", currentInfo.id);
+  const userQuery = query(collection, userWhere);
+  const results = await getDocs(userQuery);
+  const doc = results?.docs.at(0);
 
-  const doc = result.docs[0];
   if (!doc) {
     throw new NoUserFoundError();
   }
-  return result.docs[0].data() as PersistedInfo;
+  return doc.data() as PersistedInfo;
 }
 
 async function persistCurrentUserInfo(): Promise<void> {
@@ -50,7 +53,7 @@ async function persistCurrentUserInfo(): Promise<void> {
   }
 
   const collection = getUserCollection();
-  await collection.add({
+  await addDoc(collection, {
     id: currentInfo.id,
     email: currentInfo.email,
   });
