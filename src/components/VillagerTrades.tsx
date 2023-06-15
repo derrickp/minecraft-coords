@@ -1,4 +1,3 @@
-import React from "react";
 import { VillagerTrade } from "../minecraft/VillagerTrade";
 import { Text, Box, Button } from "grommet";
 import { Edit } from "grommet-icons";
@@ -11,7 +10,7 @@ export interface VillagerTradesProps {
 export const VillagerTrades: React.FC<VillagerTradesProps> = ({
   villagerTrades,
   editVillageClicked,
-}): JSX.Element => (
+}) => (
   <>
     {villagerTrades.map((villager, index) => {
       return (

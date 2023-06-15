@@ -1,4 +1,3 @@
-import React from "react";
 import { Text } from "grommet";
 
 import { Trade } from "../minecraft/Trade";

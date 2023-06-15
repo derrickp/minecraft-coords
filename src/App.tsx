@@ -1,5 +1,5 @@
-import { MaybeUser, buildUser } from "./User";
-import React, { useState, useEffect } from "react";
+import { User, buildUser } from "./User";
+import { useState, useEffect } from "react";
 import {
   Grommet,
   ThemeType,
@@ -11,7 +11,7 @@ import {
 } from "grommet";
 import { Menu } from "grommet-icons";
 import { SignUp } from "./pages/SignUp";
-import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
 import { SignInOrSignUp } from "./pages/SignInOrSignUp";
@@ -52,29 +52,28 @@ const theme: ThemeType = {
 
 export const App = (props: AppProps): JSX.Element => {
   const [showSideBar, setShowSideBar] = useState(false);
-  const navigate = useNavigate();
 
   const handleSignOut = () => {
     setShowSideBar(false);
     signOut();
   };
 
-  const [currentUser, setUser] = useState<MaybeUser>(undefined);
+  const [currentUser, setUser] = useState<User | undefined>();
   useEffect(() => {
     console.log("effect called");
     let worldsHandle: Handle;
 
-    async function handleUserChange(authInfo?: AuthInfo) {
+    const handleUserChange = async (authInfo?: AuthInfo) => {
       let persistedInfo: PersistedInfo;
 
       // Our function for handling when world changes happen.
-      async function handleWorldsChanged(worlds: World[]) {
+      const handleWorldsChanged = async (worlds: World[]) => {
         console.log("worlds changed?!");
         if (persistedInfo) {
           const user = buildUser(persistedInfo, worlds);
           setUser(user);
         }
-      }
+      };
 
       // If we have a previous subscription. Remove it.
       if (worldsHandle) {
@@ -90,13 +89,11 @@ export const App = (props: AppProps): JSX.Element => {
       } else {
         setUser(undefined);
       }
-    }
+    };
 
     const handle = subscribeToUserChanges(handleUserChange);
 
-    return function cleanup() {
-      handle.remove();
-    };
+    return handle.remove;
   }, []);
 
   return (

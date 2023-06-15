@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { MaybeUser, worldById } from "../User";
-import { useNavigate, useParams } from "react-router-dom";
+import { User } from "../User";
+import { useParams } from "react-router-dom";
 import { Box } from "grommet";
 import { Coordinate } from "../minecraft/Coordinate";
 import { CoordinateList } from "../components/CoordinateList";
@@ -15,7 +15,7 @@ import { AddButton } from "../components/AddButton";
 import { getNextCoordinateId, World } from "../minecraft/World";
 
 export interface ViewWorldProps {
-  user: MaybeUser;
+  user?: User;
 }
 
 export interface RouteParams {
@@ -26,13 +26,16 @@ export const ViewWorld: React.FC<ViewWorldProps> = ({ user }) => {
   const { worldId } = useParams();
   const [showNewCoordinate, setShowNewCoordinate] = useState(false);
   const [savingWorld, setSavingWorld] = useState(false);
-  const navigate = useNavigate();
 
   if (!user) {
     return <div>You must be logged in to see worlds.</div>;
   }
 
-  const world = worldById(user, worldId ?? "");
+  if (!worldId) {
+    return <div>Invalid world ID to view.</div>;
+  }
+
+  const world = user.worldById(worldId);
   if (!world) {
     return <div>No world with that ID.</div>;
   }
@@ -42,7 +45,7 @@ export const ViewWorld: React.FC<ViewWorldProps> = ({ user }) => {
   }
 
   const onCoordinateSubmitted = async (details: NewCoordinateDetails) => {
-    const coordinate: Coordinate = coordinateFromDetails(
+    const coordinate = coordinateFromDetails(
       getNextCoordinateId(world),
       details
     );
@@ -72,9 +75,7 @@ export const ViewWorld: React.FC<ViewWorldProps> = ({ user }) => {
             <ViewWorldHeading world={world} />
             <CoordinateList
               coordinates={world.coordinates}
-              coordinateClicked={(coordinate) =>
-                navigate(getCoordinateUrl(world, coordinate))
-              }
+              worldId={world.id}
             />
             <AddButton
               text="Add New Coordinate"
@@ -86,6 +87,3 @@ export const ViewWorld: React.FC<ViewWorldProps> = ({ user }) => {
     </>
   );
 };
-
-const getCoordinateUrl = (world: World, coordinate: Coordinate): string =>
-  `/worlds/${world.id}/coordinates/${coordinate.id}`;

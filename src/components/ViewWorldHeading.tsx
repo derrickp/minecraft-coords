@@ -1,4 +1,3 @@
-import React from "react";
 import { World } from "../minecraft/World";
 import { Box, Heading, Text } from "grommet";
 

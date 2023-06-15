@@ -1,8 +1,6 @@
 import { Coordinate } from "./Coordinate";
 import { Platform } from "./Platform";
 
-export type MaybeWorld = World | undefined;
-
 export interface World {
   id: string;
   seed: string;

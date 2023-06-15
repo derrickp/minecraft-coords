@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { VillagerTrade } from "../minecraft/VillagerTrade";
 import { Form, FormField, Text, TextInput, Box, Button } from "grommet";
 import { Close } from "grommet-icons";

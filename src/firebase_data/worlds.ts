@@ -12,7 +12,10 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-export async function saveNewWorld(world: World, user: User): Promise<World> {
+export const saveNewWorld = async (
+  world: World,
+  user: User
+): Promise<World> => {
   const collection = getWorldCollection();
   const persistedWorld: World = {
     ...world,
@@ -24,16 +27,16 @@ export async function saveNewWorld(world: World, user: User): Promise<World> {
   persistedWorld.storageId = result.id;
   console.log(persistedWorld);
   return persistedWorld;
-}
+};
 
-export async function updateWorld(world: World): Promise<void> {
+export const updateWorld = async (world: World): Promise<void> => {
   const collection = getWorldCollection();
   if (!world.storageId) {
     throw new Error("World needs to be saved first");
   }
   const document = doc<DocumentData>(collection, world.storageId);
   await updateDoc(document, world as any); // TODO: refactor
-}
+};
 
 interface WorldUpdateSubscription {
   userId: string;
@@ -42,10 +45,10 @@ interface WorldUpdateSubscription {
 
 const subscriptions: WorldUpdateSubscription[] = [];
 
-export function subscribeToWorldChanges(
+export const subscribeToWorldChanges = (
   userId: string,
   callback: (worlds: World[]) => void
-): Handle {
+): Handle => {
   const haveExistingSubscription = subscriptions.some(
     (s) => s.userId === userId
   );
@@ -94,4 +97,4 @@ export function subscribeToWorldChanges(
       }
     },
   };
-}
+};

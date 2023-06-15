@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, TextInput, Button, Form, FormField } from "grommet";
 
 export interface PasswordFormProps {

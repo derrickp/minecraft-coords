@@ -1,4 +1,3 @@
-import React from "react";
 import { Logout } from "grommet-icons";
 import { Nav, Box, Button } from "grommet";
 
@@ -12,12 +11,7 @@ export const SidebarNav: React.FC<SideBarNavProps> = ({ signOut }) => (
   </Nav>
 );
 
-const SignOutButton = ({
-  signOut,
-  ...rest
-}: {
-  signOut: () => void;
-}): JSX.Element => (
+const SignOutButton: React.FC<SideBarNavProps> = ({ signOut, ...rest }) => (
   <Box pad="small">
     <Button
       gap="medium"

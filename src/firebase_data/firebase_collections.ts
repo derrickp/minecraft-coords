@@ -5,14 +5,14 @@ import {
   CollectionReference,
 } from "firebase/firestore";
 
-export function getUserCollection(): CollectionReference {
+export const getUserCollection = (): CollectionReference => {
   const app = getFirebaseApp();
   const firestore = getFirestore(app);
   return collection(firestore, "users");
-}
+};
 
-export function getWorldCollection(): CollectionReference {
+export const getWorldCollection = (): CollectionReference => {
   const app = getFirebaseApp();
   const firestore = getFirestore(app);
   return collection(firestore, "worlds");
-}
+};

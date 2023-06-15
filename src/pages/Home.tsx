@@ -1,7 +1,6 @@
 import { User } from "../User";
 import { Text, Box } from "grommet";
 import { WorldTableLinks } from "../components/WorldTableLinks";
-import { World } from "../minecraft/World";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

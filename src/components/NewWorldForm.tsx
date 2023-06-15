@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Platform } from "../minecraft/Platform";
 import { Form, FormField, TextInput, Select, Box, Button } from "grommet";
 

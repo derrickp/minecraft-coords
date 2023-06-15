@@ -25,9 +25,9 @@ onAuthStateChanged(auth, (fbUser) => {
   }
 });
 
-export function subscribeToUserChanges(
+export const subscribeToUserChanges = (
   callback: (user?: AuthInfo) => void
-): Handle {
+): Handle => {
   if (!subscriptions.has(callback)) {
     subscriptions.add(callback);
   }
@@ -39,33 +39,35 @@ export function subscribeToUserChanges(
       }
     },
   };
-}
+};
 
-export async function signUp(
+export const signUp = async (
   email: string,
   password: string
-): Promise<AuthInfo | undefined> {
+): Promise<AuthInfo | undefined> => {
   const credential = await createUserWithEmailAndPassword(
     auth,
     email,
     password
   );
   return credential.user ? infoFromFirebaseUser(credential.user) : undefined;
-}
+};
 
-export async function signIn(
+export const signIn = async (
   email: string,
   password: string
-): Promise<AuthInfo | undefined> {
+): Promise<AuthInfo | undefined> => {
   const credential = await signInWithEmailAndPassword(auth, email, password);
-  return credential.user ? infoFromFirebaseUser(credential.user) : undefined;
-}
 
-export async function signOut(): Promise<void> {
-  return firebaseSignOut(auth);
-}
+  if (credential.user) {
+    return infoFromFirebaseUser(credential.user);
+  }
+};
 
-export function getCurrentUserInfo(): AuthInfo | undefined {
-  const currentUser = auth.currentUser;
-  return currentUser ? infoFromFirebaseUser(currentUser) : undefined;
-}
+export const signOut = async (): Promise<void> => firebaseSignOut(auth);
+
+export const getCurrentUserInfo = (): AuthInfo | undefined => {
+  if (auth.currentUser) {
+    return infoFromFirebaseUser(auth.currentUser);
+  }
+};

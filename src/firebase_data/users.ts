@@ -5,7 +5,7 @@ import { PersistedInfo } from "./PersistedInfo";
 import { NoUserFoundError } from "./NoUserFoundError";
 import { addDoc, getDocs, query, where } from "firebase/firestore";
 
-export async function isCurrentUserPersisted(): Promise<boolean> {
+export const isCurrentUserPersisted = async (): Promise<boolean> => {
   const currentInfo = getCurrentUserInfo();
   if (!currentInfo) {
     throw new NoCurrentUserError();
@@ -17,18 +17,18 @@ export async function isCurrentUserPersisted(): Promise<boolean> {
   const result = await getDocs(currentQuery);
 
   return result.size >= 1;
-}
+};
 
-export async function persistCurrentUserIfNotPersisted(): Promise<void> {
+export const persistCurrentUserIfNotPersisted = async (): Promise<void> => {
   const alreadyPersisted = await isCurrentUserPersisted();
   if (alreadyPersisted) {
     return;
   }
 
   return persistCurrentUserInfo();
-}
+};
 
-export async function getCurrentPersistedInfo(): Promise<PersistedInfo> {
+export const getCurrentPersistedInfo = async (): Promise<PersistedInfo> => {
   const currentInfo = getCurrentUserInfo();
   if (!currentInfo) {
     throw new NoCurrentUserError();
@@ -44,9 +44,9 @@ export async function getCurrentPersistedInfo(): Promise<PersistedInfo> {
     throw new NoUserFoundError();
   }
   return doc.data() as PersistedInfo;
-}
+};
 
-async function persistCurrentUserInfo(): Promise<void> {
+const persistCurrentUserInfo = async (): Promise<void> => {
   const currentInfo = getCurrentUserInfo();
   if (!currentInfo) {
     throw new NoCurrentUserError();
@@ -57,4 +57,4 @@ async function persistCurrentUserInfo(): Promise<void> {
     id: currentInfo.id,
     email: currentInfo.email,
   });
-}
+};

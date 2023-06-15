@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { MaybeUser, worldById } from "../User";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { coordinateById } from "../minecraft/World";
 import { parseCoordinateId } from "../minecraft/Coordinate";
 import { VillagerTrade } from "../minecraft/VillagerTrade";
 import { updateWorld } from "../firebase_data/worlds";
 import { DetailedCoordinate } from "../components/DetailedCoordinate";
+import { User } from "../User";
 
 export interface ViewCoordinateProps {
-  user: MaybeUser;
+  user?: User;
 }
 
 export interface ViewCoordinateRouteParams {
@@ -31,7 +32,11 @@ export const ViewCoordinate: React.FC<ViewCoordinateProps> = ({ user }) => {
     return <div>You must be logged in to see a coordinate.</div>;
   }
 
-  const world = worldById(user, worldId!);
+  if (!worldId) {
+    return <div>Invalid world ID</div>;
+  }
+
+  const world = user.worldById(worldId);
 
   if (!world) {
     return (
