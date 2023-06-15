@@ -4,29 +4,28 @@ import { useNavigate, useParams } from "react-router-dom";
 import { coordinateById } from "../minecraft/World";
 import { parseCoordinateId } from "../minecraft/Coordinate";
 import { DetailedCoordinate } from "../components/DetailedCoordinate";
-import { User } from "../User";
-
-export interface ViewCoordinateProps {
-  user?: User;
-}
+import { useAuthInfo } from "../hooks/auth";
+import { useWorlds } from "../hooks/worlds";
 
 export interface ViewCoordinateRouteParams {
   worldId: string;
   coordinateId: string;
 }
 
-export const ViewCoordinate: React.FC<ViewCoordinateProps> = ({ user }) => {
+export const ViewCoordinate: React.FC = () => {
   const { worldId, coordinateId } = useParams();
   const navigate = useNavigate();
   const [isSavingCoordinate, setSavingCoordinate] = useState(false);
+  const { authInfo } = useAuthInfo();
+  const { worlds } = useWorlds();
 
   useEffect(() => {
-    if (!user || !worldId || !coordinateId) {
+    if (!authInfo || !worldId || !coordinateId) {
       navigate("/");
     }
-  }, [user, worldId, coordinateId]);
+  }, [authInfo, worldId, coordinateId]);
 
-  if (!user) {
+  if (!authInfo) {
     return <div>You must be logged in to see a coordinate.</div>;
   }
 
@@ -34,7 +33,7 @@ export const ViewCoordinate: React.FC<ViewCoordinateProps> = ({ user }) => {
     return <div>Invalid world ID</div>;
   }
 
-  const world = user.worldById(worldId);
+  const world = worlds.find((w) => w.id === worldId);
 
   if (!world) {
     return (

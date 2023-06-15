@@ -1,16 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "grommet";
-import { User } from "../User";
+import { useAuthInfo } from "../hooks/auth";
 
-export const SignInOrSignUp: React.FC<{ user?: User }> = ({ user }) => {
+export const SignInOrSignUp: React.FC = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
 
   const onSignInClick = () => {
     navigate("/sign-in");

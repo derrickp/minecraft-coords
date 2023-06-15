@@ -2,12 +2,16 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { App } from "./App";
+import { getFirebaseApp } from "./bootstrap/firebase";
+import { FirebaseProvider } from "./hooks/firebase";
 
 const element = document.getElementById("app");
 
 if (!element) {
   console.error("Nothing is going to work now.");
 }
+
+const app = getFirebaseApp();
 
 function renderApp() {
   if (!element) {
@@ -18,7 +22,9 @@ function renderApp() {
 
   root.render(
     <BrowserRouter>
-      <App name="Minecraft Coordinate Keeper" />
+      <FirebaseProvider value={app}>
+        <App name="Minecraft Coordinate Keeper" />
+      </FirebaseProvider>
     </BrowserRouter>
   );
 }

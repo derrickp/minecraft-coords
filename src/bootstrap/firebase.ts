@@ -10,5 +10,3 @@ export const getFirebaseApp = (): FirebaseApp => {
   }
   return app;
 };
-
-getFirebaseApp();
