@@ -9,12 +9,10 @@ export interface Coordinate {
   biome: string;
   tags: string[];
   hasVillageNearby: boolean;
-  villagerTrades: VillagerTrade[];
+  farms: string[];
 }
 
-type MaybeCoordinateId = number | undefined;
-
-export function parseCoordinateId(possibleId: string): MaybeCoordinateId {
+export function parseCoordinateId(possibleId: string): number | undefined {
   const id = Number.parseInt(possibleId);
   if (Number.isNaN(id)) {
     return undefined;

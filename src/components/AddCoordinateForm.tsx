@@ -5,8 +5,8 @@ import {
   TextInput,
   Box,
   Button,
-  CheckBox,
   Heading,
+  CheckBox,
 } from "grommet";
 import { NewCoordinateDetails } from "./NewCoordinateDetails";
 
@@ -23,6 +23,7 @@ export const AddCoordinateForm: React.FC<AddCoordinateFormProps> = (props) => {
   const [name, setName] = useState<string>("");
   const [biome, setBiome] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
+  const [farms, setFarms] = useState<string[]>([]);
   const [hasVillageNearby, setHasVillage] = useState(false);
 
   const onSubmit = () => {
@@ -32,8 +33,9 @@ export const AddCoordinateForm: React.FC<AddCoordinateFormProps> = (props) => {
       z,
       name,
       tags,
-      hasVillageNearby,
       biome,
+      farms,
+      hasVillageNearby,
     });
   };
 
@@ -46,6 +48,7 @@ export const AddCoordinateForm: React.FC<AddCoordinateFormProps> = (props) => {
           setY("");
           setZ("");
           setTags([]);
+          setFarms([]);
           setHasVillage(false);
         }}
         onSubmit={onSubmit}
@@ -91,6 +94,13 @@ export const AddCoordinateForm: React.FC<AddCoordinateFormProps> = (props) => {
             label="Has Village Nearby?"
             checked={hasVillageNearby}
             onChange={(event) => setHasVillage(event.target.checked)}
+          />
+        </FormField>
+        <FormField label="Farms close by (comma separated)" name="amenities">
+          <TextInput
+            name="farms"
+            value={farms.join(",")}
+            onChange={(event) => setFarms(event.target.value.split(","))}
           />
         </FormField>
         <FormField label="Tags (separate by ,)" name="tags">

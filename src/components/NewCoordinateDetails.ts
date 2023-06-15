@@ -6,8 +6,9 @@ export interface NewCoordinateDetails {
   z: string;
   name: string;
   tags: string[];
-  hasVillageNearby: boolean;
   biome: string;
+  hasVillageNearby: boolean;
+  farms: string[];
 }
 
 export function coordinateFromDetails(
@@ -16,13 +17,6 @@ export function coordinateFromDetails(
 ): Coordinate {
   return {
     id,
-    x: details.x,
-    y: details.y,
-    z: details.z,
-    tags: details.tags,
-    biome: details.biome,
-    hasVillageNearby: details.hasVillageNearby,
-    name: details.name,
-    villagerTrades: [],
+    ...details,
   };
 }

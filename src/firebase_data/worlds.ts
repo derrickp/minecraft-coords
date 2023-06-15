@@ -8,8 +8,8 @@ import {
   doc,
   DocumentData,
   query,
-  updateDoc,
-  getDocs,
+  onSnapshot,
+  setDoc,
 } from "firebase/firestore";
 
 export const saveNewWorld = async (
@@ -35,7 +35,7 @@ export const updateWorld = async (world: World): Promise<void> => {
     throw new Error("World needs to be saved first");
   }
   const document = doc<DocumentData>(collection, world.storageId);
-  await updateDoc(document, world as any); // TODO: refactor
+  await setDoc(document, world); // TODO: refactor
 };
 
 interface WorldUpdateSubscription {
@@ -63,21 +63,25 @@ export const subscribeToWorldChanges = (
     const collection = getWorldCollection();
     const whereFilter = where("collaborators", "array-contains", userId);
     const userQuery = query(collection, whereFilter);
-    const querySnapshot = getDocs(userQuery);
-    querySnapshot.then((snapshot) => {
-      const worlds: World[] = [];
-      snapshot.forEach((doc) => {
-        const world = doc.data() as World;
-        world.storageId = doc.id;
-        worlds.push(world);
-      });
-      const index = subscriptions.findIndex((s) => s.userId === userId);
-      if (index >= 0) {
-        const worldSubscriptions = subscriptions[index];
-        for (const callback of worldSubscriptions.callbacks) {
-          callback(worlds);
+
+    onSnapshot(userQuery, {
+      next: (snapshot) => {
+        const worlds: World[] = [];
+        snapshot.forEach((doc) => {
+          const world = doc.data() as World;
+          world.storageId = doc.id;
+          worlds.push(world);
+        });
+
+        const index = subscriptions.findIndex((s) => s.userId === userId);
+        if (index >= 0) {
+          const worldSubscriptions = subscriptions[index];
+          for (const callback of worldSubscriptions.callbacks) {
+            callback(worlds);
+          }
         }
-      }
+      },
+      error: console.error,
     });
   }
 

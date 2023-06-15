@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { coordinateById } from "../minecraft/World";
 import { parseCoordinateId } from "../minecraft/Coordinate";
-import { VillagerTrade } from "../minecraft/VillagerTrade";
-import { updateWorld } from "../firebase_data/worlds";
 import { DetailedCoordinate } from "../components/DetailedCoordinate";
 import { User } from "../User";
 
@@ -61,28 +59,5 @@ export const ViewCoordinate: React.FC<ViewCoordinateProps> = ({ user }) => {
     return <div>Saving world...</div>;
   }
 
-  const addVillagerTrade = async (villagerTrade: VillagerTrade) => {
-    coordinate.villagerTrades.push(villagerTrade);
-    setSavingCoordinate(true);
-    await updateWorld(world);
-    setSavingCoordinate(false);
-  };
-
-  const editVillagerTrade = async (
-    index: number,
-    villagerTrade: VillagerTrade
-  ) => {
-    coordinate.villagerTrades.splice(index, 1, villagerTrade);
-    setSavingCoordinate(true);
-    await updateWorld(world);
-    setSavingCoordinate(false);
-  };
-
-  return (
-    <DetailedCoordinate
-      coordinate={coordinate}
-      villagerTradeAdded={addVillagerTrade}
-      villageTradeEdited={editVillagerTrade}
-    ></DetailedCoordinate>
-  );
+  return <DetailedCoordinate coordinate={coordinate} />;
 };
