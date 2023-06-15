@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "grommet";
-import { useAuthInfo } from "../hooks/auth";
 
-export const SignInOrSignUp: React.FC = () => {
+export const SignInOrSignUp: FC = () => {
   const navigate = useNavigate();
 
   const onSignInClick = () => {

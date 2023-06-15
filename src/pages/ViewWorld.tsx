@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Box } from "grommet";
 import { CoordinateList } from "../components/CoordinateList";
@@ -5,7 +6,7 @@ import { ViewWorldHeading } from "../components/ViewWorldHeading";
 import { useAuthInfo } from "../hooks/auth";
 import { useWorld } from "../hooks/worlds";
 
-export const ViewWorld: React.FC = () => {
+export const ViewWorld: FC = () => {
   const { worldId } = useParams();
   const { authInfo } = useAuthInfo();
   const { world } = useWorld(worldId);

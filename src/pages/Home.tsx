@@ -3,9 +3,9 @@ import { WorldTableLinks } from "../components/WorldTableLinks";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthInfo } from "../hooks/auth";
 import { useWorlds } from "../hooks/worlds";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 
-export const Home: React.FC = () => {
+export const Home: FC = () => {
   const navigate = useNavigate();
   const { authInfo } = useAuthInfo();
   const { worlds } = useWorlds();

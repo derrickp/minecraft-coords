@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Grommet, ThemeType, Box, Main } from "grommet";
 import { SignUp } from "./pages/SignUp";
 import { Route, Routes } from "react-router-dom";
@@ -24,7 +25,7 @@ const theme: ThemeType = {
   },
 };
 
-export const App: React.FC<AppProps> = (props) => (
+export const App: FC<AppProps> = (props) => (
   <Grommet theme={theme} themeMode="dark">
     <Box fill>
       <AppBar name={props.name} />

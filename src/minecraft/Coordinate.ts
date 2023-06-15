@@ -1,5 +1,3 @@
-import { VillagerTrade } from "./VillagerTrade";
-
 export interface Coordinate {
   id: number;
   x: string;
@@ -12,10 +10,10 @@ export interface Coordinate {
   farms: string[];
 }
 
-export function parseCoordinateId(possibleId: string): number | undefined {
+export const parseCoordinateId = (possibleId: string): number | undefined => {
   const id = Number.parseInt(possibleId);
   if (Number.isNaN(id)) {
     return undefined;
   }
   return id;
-}
+};

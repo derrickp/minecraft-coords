@@ -21,12 +21,12 @@ export interface BuildWorldArgs {
   platform?: Platform;
 }
 
-export function getFriendlyId(id: string): string {
+export const getFriendlyId = (id: string): string => {
   const parts = id.split("-");
   return parts[1];
-}
+};
 
-export function getNextCoordinateId(world: World): number {
+export const getNextCoordinateId = (world: World): number => {
   if (!world.coordinates) {
     return 1;
   }
@@ -40,30 +40,27 @@ export function getNextCoordinateId(world: World): number {
   }
 
   return 1;
-}
+};
 
-export function coordinateById(
+export const coordinateById = (
   world: World,
-  coordinateId: number
-): Coordinate | undefined {
-  return world.coordinates.find((c) => c.id == coordinateId);
-}
+  coordinateId: number,
+): Coordinate | undefined =>
+  world.coordinates.find((c) => c.id === coordinateId);
 
-export function buildWorld({
+export const buildWorld = ({
   idUniqueifier,
   id,
   seed,
   name,
   platform = Platform.BEDROCK,
   coordinates = [],
-}: BuildWorldArgs): World {
-  return {
-    seed,
-    name,
-    platform,
-    owner: idUniqueifier,
-    collaborators: [],
-    id: `${idUniqueifier}-${id}`,
-    coordinates: coordinates,
-  };
-}
+}: BuildWorldArgs): World => ({
+  seed,
+  name,
+  platform,
+  owner: idUniqueifier,
+  collaborators: [],
+  id: `${idUniqueifier}-${id}`,
+  coordinates,
+});

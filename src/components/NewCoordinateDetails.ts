@@ -11,12 +11,10 @@ export interface NewCoordinateDetails {
   farms: string[];
 }
 
-export function coordinateFromDetails(
+export const coordinateFromDetails = (
   id: number,
-  details: NewCoordinateDetails
-): Coordinate {
-  return {
-    id,
-    ...details,
-  };
-}
+  details: NewCoordinateDetails,
+): Coordinate => ({
+  id,
+  ...details,
+});

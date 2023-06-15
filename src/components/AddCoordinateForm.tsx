@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import {
   Form,
   FormField,
@@ -16,7 +16,7 @@ export interface AddCoordinateFormProps {
   onCancel: () => void;
 }
 
-export const AddCoordinateForm: React.FC<AddCoordinateFormProps> = (props) => {
+export const AddCoordinateForm: FC<AddCoordinateFormProps> = (props) => {
   const [x, setX] = useState<string>("");
   const [y, setY] = useState<string>("");
   const [z, setZ] = useState<string>("");

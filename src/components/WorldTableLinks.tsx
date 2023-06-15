@@ -11,13 +11,14 @@ import {
 import { World, getFriendlyId } from "../minecraft/World";
 import { AddButton } from "./AddButton";
 import { Link } from "react-router-dom";
+import { FC } from "react";
 
 export interface WorldTableLinksProps {
   worlds: World[];
   newWorldClicked: () => void;
 }
 
-export const WorldTableLinks: React.FC<WorldTableLinksProps> = ({
+export const WorldTableLinks: FC<WorldTableLinksProps> = ({
   worlds,
   newWorldClicked,
 }) => (

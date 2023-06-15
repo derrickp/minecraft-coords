@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { Coordinate } from "../minecraft/Coordinate";
 import { List, Text, Box, Heading } from "grommet";
+import { FC } from "react";
 
 export interface CoordinateListProps {
   coordinates: Coordinate[];
   worldId: string;
 }
 
-export const CoordinateList: React.FC<CoordinateListProps> = ({
+export const CoordinateList: FC<CoordinateListProps> = ({
   coordinates,
   worldId,
 }) => (

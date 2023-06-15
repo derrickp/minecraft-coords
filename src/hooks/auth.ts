@@ -27,28 +27,30 @@ export const useAuthInfo = () => {
   const auth = useAuth();
   const [authInfo, setAuthInfo] = useState<AuthInfo | null>(null);
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, (fbUser) => {
-      const authInfo: AuthInfo | null = fbUser
-        ? infoFromFirebaseUser(fbUser)
-        : null;
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (fbUser) => {
+        const authInfo: AuthInfo | null = fbUser
+          ? infoFromFirebaseUser(fbUser)
+          : null;
 
-      setAuthInfo((current) => {
-        if (!authInfo) {
-          return null;
-        }
+        setAuthInfo((current) => {
+          if (!authInfo) {
+            return null;
+          }
 
-        if (!current) {
+          if (!current) {
+            return authInfo;
+          }
+
+          if (current.email === authInfo.email && current.id === authInfo.id) {
+            return current;
+          }
           return authInfo;
-        }
-
-        if (current.email === authInfo.email && current.id === authInfo.id) {
-          return current;
-        }
-        return authInfo;
-      });
-    });
-  }, [auth, setAuthInfo]);
+        });
+      }),
+    [auth, setAuthInfo],
+  );
 
   return { authInfo };
 };
@@ -80,7 +82,7 @@ export const useSignUp = () => {
     const credential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const authInfo: AuthInfo = {
       id: credential.user.uid,
@@ -93,7 +95,7 @@ export const useSignUp = () => {
 
 const persistCurrentUserInfo = async (
   authInfo: AuthInfo,
-  collection: CollectionReference
+  collection: CollectionReference,
 ): Promise<void> => {
   await addDoc(collection, {
     id: authInfo.id,
@@ -103,7 +105,7 @@ const persistCurrentUserInfo = async (
 
 export const isCurrentUserPersisted = async (
   authInfo: AuthInfo,
-  collection: CollectionReference
+  collection: CollectionReference,
 ): Promise<boolean> => {
   const currentWhere = where("id", "==", authInfo.id);
   const currentQuery = query(collection, currentWhere);
@@ -114,7 +116,7 @@ export const isCurrentUserPersisted = async (
 
 export const persistCurrentUserIfNotPersisted = async (
   authInfo: AuthInfo,
-  collection: CollectionReference
+  collection: CollectionReference,
 ): Promise<void> => {
   const alreadyPersisted = await isCurrentUserPersisted(authInfo, collection);
   if (alreadyPersisted) {

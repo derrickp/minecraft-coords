@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { FC } from "react";
 import { PasswordForm } from "../components/PasswordForm";
-import { useNavigate } from "react-router-dom";
-import { useAuthInfo, useSignIn } from "../hooks/auth";
+import { useSignIn } from "../hooks/auth";
 
-export const SignIn: React.FC = () => {
+export const SignIn: FC = () => {
   const signIn = useSignIn();
 
   return <PasswordForm onFormComplete={signIn} buttonText="Sign In" />;

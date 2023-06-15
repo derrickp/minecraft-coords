@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { coordinateById } from "../minecraft/World";
@@ -15,7 +15,6 @@ export interface ViewCoordinateRouteParams {
 export const ViewCoordinate: React.FC = () => {
   const { worldId, coordinateId } = useParams();
   const navigate = useNavigate();
-  const [isSavingCoordinate, setSavingCoordinate] = useState(false);
   const { authInfo } = useAuthInfo();
   const { worlds } = useWorlds();
 
@@ -52,10 +51,6 @@ export const ViewCoordinate: React.FC = () => {
     return (
       <div>{`Unfortunately no coordinate exists with id ${coordinateId} in specified world`}</div>
     );
-  }
-
-  if (isSavingCoordinate) {
-    return <div>Saving world...</div>;
   }
 
   return <DetailedCoordinate coordinate={coordinate} />;

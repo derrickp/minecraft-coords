@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Coordinate } from "../minecraft/Coordinate";
 import { Box, Text } from "grommet";
 
@@ -5,7 +6,7 @@ export interface DetailedCoordinateProps {
   coordinate: Coordinate;
 }
 
-export const DetailedCoordinate: React.FC<DetailedCoordinateProps> = ({
+export const DetailedCoordinate: FC<DetailedCoordinateProps> = ({
   coordinate,
 }) => (
   <Box direction="column" gap="small">
@@ -20,10 +21,8 @@ export const DetailedCoordinate: React.FC<DetailedCoordinateProps> = ({
   </Box>
 );
 
-function coordinatesLabel(coordinate: Coordinate): string {
-  return `X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.y}`;
-}
+const coordinatesLabel = (coordinate: Coordinate): string =>
+  `X: ${coordinate.x} Y: ${coordinate.y} Z: ${coordinate.y}`;
 
-function biomeLabel(coordinate: Coordinate): string {
-  return `Biome: ${coordinate.biome}`;
-}
+const biomeLabel = (coordinate: Coordinate): string =>
+  `Biome: ${coordinate.biome}`;

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AddCoordinateForm } from "../components/AddCoordinateForm";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import {
   NewCoordinateDetails,
   coordinateFromDetails,
@@ -8,7 +8,7 @@ import {
 import { useUpdateWorld, useWorld } from "../hooks/worlds";
 import { getNextCoordinateId } from "../minecraft/World";
 
-export const AddCoordinate: React.FC = () => {
+export const AddCoordinate: FC = () => {
   const { worldId } = useParams();
   const navigate = useNavigate();
   const { world } = useWorld(worldId);
@@ -22,7 +22,7 @@ export const AddCoordinate: React.FC = () => {
 
       const coordinate = coordinateFromDetails(
         getNextCoordinateId(world),
-        details
+        details,
       );
 
       if (!world.coordinates) {
@@ -33,7 +33,7 @@ export const AddCoordinate: React.FC = () => {
       await updateWorld(world);
       navigate(`/worlds/${world.id}`);
     },
-    [updateWorld, world, navigate]
+    [updateWorld, world, navigate],
   );
 
   if (!world) {

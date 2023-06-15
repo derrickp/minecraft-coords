@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Platform } from "../minecraft/Platform";
 import { Form, FormField, TextInput, Select, Box, Button } from "grommet";
 
@@ -14,7 +14,7 @@ export interface NewWorldFormProps {
   onCancel: () => void;
 }
 
-export const NewWorldForm: React.FC<NewWorldFormProps> = ({
+export const NewWorldForm: FC<NewWorldFormProps> = ({
   onCancel,
   onWorldSubmitted,
 }) => {

@@ -13,7 +13,7 @@ if (!element) {
 
 const app = getFirebaseApp();
 
-function renderApp() {
+const renderApp = () => {
   if (!element) {
     return;
   }
@@ -25,8 +25,8 @@ function renderApp() {
       <FirebaseProvider value={app}>
         <App name="Minecraft Coordinate Keeper" />
       </FirebaseProvider>
-    </BrowserRouter>
+    </BrowserRouter>,
   );
-}
+};
 
 renderApp();

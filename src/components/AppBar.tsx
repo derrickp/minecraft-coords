@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuthInfo } from "../hooks/auth";
 import { SignOutButton } from "./SignOutButton";
 import { SignInButton } from "./SignInButton";
+import { FC } from "react";
 
-export const AppBar: React.FC<{ name: string }> = ({ name }) => {
+export const AppBar: FC<{ name: string }> = ({ name }) => {
   const { authInfo } = useAuthInfo();
   const navigate = useNavigate();
 

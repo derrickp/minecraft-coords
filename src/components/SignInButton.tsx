@@ -1,8 +1,9 @@
 import { Login } from "grommet-icons";
 import { Box, Button } from "grommet";
 import { useNavigate } from "react-router-dom";
+import { FC } from "react";
 
-export const SignInButton: React.FC = () => {
+export const SignInButton: FC = () => {
   const navigate = useNavigate();
 
   return (

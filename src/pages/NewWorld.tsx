@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { buildWorld } from "../minecraft/World";
 import { Box } from "grommet";
 import { NewWorldForm, NewWorldDetails } from "../components/NewWorldForm";
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthInfo } from "../hooks/auth";
 import { useSaveNewWorld } from "../hooks/worlds";
 
-export const NewWorld: React.FC = () => {
+export const NewWorld: FC = () => {
   const navigate = useNavigate();
   const { authInfo } = useAuthInfo();
   const [isSavingNewWorld, setSavingNewWorld] = useState(false);
@@ -32,15 +32,14 @@ export const NewWorld: React.FC = () => {
       await saveNewWorld(world, authInfo!);
       navigate("/");
     },
-    [navigate, saveNewWorld, setSavingNewWorld, authInfo]
+    [navigate, saveNewWorld, setSavingNewWorld, authInfo],
   );
 
   return (
     <Box fill align="center" justify="center">
       <Box width="medium">
-        {isSavingNewWorld ? (
-          <div>Loading...</div>
-        ) : (
+        {isSavingNewWorld && <div>Loading...</div>}
+        {!isSavingNewWorld && (
           <NewWorldForm
             onCancel={onCancel}
             onWorldSubmitted={onWorldSubmitted}

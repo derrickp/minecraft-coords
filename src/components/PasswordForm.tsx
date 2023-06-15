@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Box, TextInput, Button, Form, FormField } from "grommet";
 
 export interface PasswordFormProps {
@@ -6,7 +6,7 @@ export interface PasswordFormProps {
   buttonText: string;
 }
 
-export const PasswordForm: React.FC<PasswordFormProps> = ({
+export const PasswordForm: FC<PasswordFormProps> = ({
   buttonText,
   onFormComplete,
 }) => {
