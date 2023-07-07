@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { App } from "./App";
 import { getFirebaseApp } from "./bootstrap/firebase";
 import { FirebaseProvider } from "./hooks/firebase";
@@ -13,6 +14,16 @@ if (!element) {
 
 const app = getFirebaseApp();
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      cacheTime: Infinity,
+    },
+  },
+});
+
 const renderApp = () => {
   if (!element) {
     return;
@@ -23,7 +34,9 @@ const renderApp = () => {
   root.render(
     <BrowserRouter>
       <FirebaseProvider value={app}>
-        <App name="Minecraft Coordinate Keeper" />
+        <QueryClientProvider client={queryClient}>
+          <App name="Minecraft Coordinate Keeper" />
+        </QueryClientProvider>
       </FirebaseProvider>
     </BrowserRouter>,
   );

@@ -22,7 +22,7 @@ export const Home: FC = () => {
     <Box align="center" fill>
       <Text>{welcomeText}</Text>
       {!authInfo && <Link to="/sign-in-or-up">Sign in to use the app</Link>}
-      <WorldTableLinks newWorldClicked={newWorldClicked} worlds={worlds} />
+      <WorldTableLinks newWorldClicked={newWorldClicked} worlds={worlds ?? []} />
     </Box>
   );
 };

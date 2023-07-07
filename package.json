@@ -7,6 +7,7 @@
   "author": "Derrick <derrickplotsky@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@tanstack/react-query": "^4.29.13",
     "firebase": "^9.22.2",
     "grommet": "^2.32.2",
     "grommet-icons": "^4.10.0",

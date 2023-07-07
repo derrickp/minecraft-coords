@@ -32,7 +32,7 @@ export const ViewCoordinate: React.FC = () => {
     return <div>Invalid world ID</div>;
   }
 
-  const world = worlds.find((w) => w.id === worldId);
+  const world = worlds?.find((w) => w.id === worldId);
 
   if (!world) {
     return (

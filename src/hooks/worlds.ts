@@ -3,16 +3,18 @@ import {
   DocumentData,
   addDoc,
   doc,
-  onSnapshot,
+  getDocs,
+  // onSnapshot,
   query,
   setDoc,
   where,
 } from "firebase/firestore";
 import { useWorldCollection } from "./firebase";
 import { useAuthInfo } from "./auth";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { World } from "../minecraft/World";
 import { AuthInfo } from "../security/AuthInfo";
+import { useQuery } from "@tanstack/react-query";
 
 const getUserQuery = (userId: string, collection: CollectionReference) => {
   const whereFilter = where("collaborators", "array-contains", userId);
@@ -30,41 +32,57 @@ export const useWorld = (id?: string) => {
 export const useWorlds = () => {
   const collection = useWorldCollection();
   const { authInfo } = useAuthInfo();
+  // const queryClient = useQueryClient();
 
-  const [worlds, setWorlds] = useState<World[]>([]);
-
-  useEffect(() => {
-    if (!authInfo) {
-      return;
-    }
-
-    const userQuery = getUserQuery(authInfo.id, collection);
-
-    const handle = onSnapshot(userQuery, {
-      next: (snapshot) => {
-        const worlds: World[] = [];
-        snapshot.forEach((doc) => {
-          const world = doc.data() as World;
-          world.storageId = doc.id;
-          worlds.push(world);
-        });
-
-        setWorlds((currentWorlds) => {
-          if (currentWorlds.length !== worlds.length) {
-            console.log("Updating worlds");
-            return worlds;
-          }
-
-          return currentWorlds;
-        });
-      },
-      error: console.error,
+  const { data, isLoading } = useQuery(["worlds"], async () => {
+    const userQuery = getUserQuery(authInfo!.id, collection);
+    const snapshot = await getDocs(userQuery);
+    const worlds: World[] = [];
+    snapshot.forEach((doc) => {
+      const world = doc.data() as World;
+      world.storageId = doc.id;
+      worlds.push(world);
     });
 
-    return handle;
-  }, [authInfo]);
+    return worlds;
+  }, {
+    enabled: !!authInfo,
+  });
 
-  return { worlds };
+  // const [worlds, setWorlds] = useState<World[]>([]);
+
+  // useEffect(() => {
+  //   if (!authInfo) {
+  //     return;
+  //   }
+
+  //   const userQuery = getUserQuery(authInfo.id, collection);
+
+  //   const handle = onSnapshot(userQuery, {
+  //     next: (snapshot) => {
+  //       const worlds: World[] = [];
+  //       snapshot.forEach((doc) => {
+  //         const world = doc.data() as World;
+  //         world.storageId = doc.id;
+  //         worlds.push(world);
+  //       });
+
+  //       setWorlds((currentWorlds) => {
+  //         if (currentWorlds.length !== worlds.length) {
+  //           console.log("Updating worlds");
+  //           return worlds;
+  //         }
+
+  //         return currentWorlds;
+  //       });
+  //     },
+  //     error: console.error,
+  //   });
+
+  //   return handle;
+  // }, [authInfo]);
+
+  return { worlds: data, isLoading };
 };
 
 export const useUpdateWorld = () => {
